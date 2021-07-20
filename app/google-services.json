@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "286565359737",
+    "project_id": "statussaverapp-5d18f",
+    "storage_bucket": "statussaverapp-5d18f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286565359737:android:257e9e31d72a9d1c7874a8",
+        "android_client_info": {
+          "package_name": "com.mystikcoder.statussaver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286565359737-p3idnavv8ip8rj6v30ur8ik6i0scfmil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVsPza0dpJu79AoEntlo-7ZfTwTTEHdFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286565359737-p3idnavv8ip8rj6v30ur8ik6i0scfmil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

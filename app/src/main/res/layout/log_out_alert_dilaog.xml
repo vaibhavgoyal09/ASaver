@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/_35sdp"
+    android:layout_marginEnd="@dimen/_35sdp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:padding="@dimen/_12sdp"
+    android:id="@+id/layoutAlertDialog"
+    android:background="@color/river_bed">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textMessage"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/athens_gray"
+        android:textSize="@dimen/_11ssp"
+        android:fontFamily="@font/roboto_light_italic"
+        android:text="@string/confirm_log_out_message_fb"/>
+
+    <TextView
+        android:id="@+id/textLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/log_out"
+        android:textColor="@color/athens_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/textMessage"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textCancel"
+        app:layout_constraintTop_toTopOf="@id/textLogOut"
+        app:layout_constraintBottom_toBottomOf="@id/textLogOut"
+        android:layout_marginTop="@dimen/_1sdp"
+        app:layout_constraintEnd_toStartOf="@id/textLogOut"
+        android:text="@string/cancel"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:textColor="@color/blue_grey_50"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

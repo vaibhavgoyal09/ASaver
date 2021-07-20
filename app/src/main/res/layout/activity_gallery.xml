@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        tools:context=".ui.activity.GalleryActivity">
+
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:contentDescription="@string/back_button"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/iron" />
+
+        <Spinner
+            android:id="@+id/appsSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            app:layout_constraintBottom_toBottomOf="@id/imageBack"
+            app:layout_constraintStart_toEndOf="@id/imageBack"
+            app:layout_constraintTop_toTopOf="@id/imageBack" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/savedItemsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appsSpinner"
+            app:spanCount="2"
+            tools:listitem="@layout/saved_items_layout" />
+
+        <ImageView
+            android:id="@+id/imageNoFileFound"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_250sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_no_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonAcceptPermissions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:backgroundTint="@color/river_bed"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/accept_permissions"
+            android:textColor="@color/blue_grey"
+            app:cornerRadius="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/imageNoFileFound"
+            app:layout_constraintStart_toStartOf="@id/imageNoFileFound"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/app_needs_read_storage_permission_to_show_downloaded_files"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/iron"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/imageNoFileFound"
+            app:layout_constraintStart_toStartOf="@id/imageNoFileFound"
+            app:layout_constraintTop_toBottomOf="@id/imageNoFileFound" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
