@@ -8,8 +8,8 @@ import android.view.View
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.mystikcoder.statussaver.databinding.ActivityLoginBinding
 import com.mystikcoder.statussaver.R
+import com.mystikcoder.statussaver.databinding.ActivityLoginBinding
 import com.mystikcoder.statussaver.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

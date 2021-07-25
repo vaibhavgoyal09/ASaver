@@ -30,6 +30,9 @@ import com.mystikcoder.statussaver.databinding.ActivityInstagramBinding
 import com.mystikcoder.statussaver.listeners.UserSelectedListener
 import com.mystikcoder.statussaver.model.facebook.FacebookNode
 import com.mystikcoder.statussaver.model.instagram.TrayModel
+import com.mystikcoder.statussaver.states.instagram.InstagramEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramStoryDetailEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramStoryEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -197,11 +200,11 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
 
             viewModel.instagramStoriesData.collect { storiesEvent ->
                 when (storiesEvent) {
-                    is MainViewModel.InstagramStoryEvent.Failure -> {
+                    is InstagramStoryEvent.Failure -> {
                         binding.loadingStoriesProgressBar.visibility = View.GONE
                         Utils.createToast(applicationContext, storiesEvent.errorText)
                     }
-                    is MainViewModel.InstagramStoryEvent.Success -> {
+                    is InstagramStoryEvent.Success -> {
 
                         storiesEvent.data?.let {
                             binding.loadingStoriesProgressBar.visibility = View.GONE
@@ -218,7 +221,7 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
                             }
                         }
                     }
-                    is MainViewModel.InstagramStoryEvent.Loading -> {
+                    is InstagramStoryEvent.Loading -> {
                         binding.loadingStoriesProgressBar.visibility = View.VISIBLE
                     }
 
@@ -233,10 +236,10 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
         lifecycleScope.launchWhenStarted {
             viewModel.instagramData.collect { resultDataEvent ->
                 when (resultDataEvent) {
-                    is MainViewModel.InstagramEvent.Loading -> {
+                    is InstagramEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.InstagramEvent.Success -> {
+                    is InstagramEvent.Success -> {
                         hideProgressBar()
 
                         resultDataEvent.mediaUrl?.let {
@@ -252,7 +255,7 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
                             }
                         }
                     }
-                    is MainViewModel.InstagramEvent.Failure -> {
+                    is InstagramEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, resultDataEvent.errorText)
                     }
@@ -264,15 +267,15 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
         lifecycleScope.launchWhenStarted {
             viewModel.instagramStoriesDetailsData.collect { storiesDetailEvent ->
                 when (storiesDetailEvent) {
-                    is MainViewModel.InstagramStoryDetailEvent.Failure -> {
+                    is InstagramStoryDetailEvent.Failure -> {
                         binding.loadingStoriesDataProgressBar.visibility = View.GONE
                         binding.storiesItemsRecyclerView.visibility = View.GONE
                         Utils.createToast(applicationContext, storiesDetailEvent.errorText)
                     }
-                    is MainViewModel.InstagramStoryDetailEvent.Loading -> {
+                    is InstagramStoryDetailEvent.Loading -> {
                         binding.loadingStoriesDataProgressBar.visibility = View.VISIBLE
                     }
-                    is MainViewModel.InstagramStoryDetailEvent.Success -> {
+                    is InstagramStoryDetailEvent.Success -> {
                         binding.loadingStoriesDataProgressBar.visibility = View.GONE
 
                         storiesDetailEvent.data?.let {
@@ -371,7 +374,7 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
                 var urlWithoutQP =
                     getUrlWithoutParameters(binding.inputLink.text.toString())
 
-                urlWithoutQP = "$urlWithoutQP?__a=1"
+                urlWithoutQP = "$urlWithoutQP$INSTAGRAM_PARAMATERS"
                 viewModel.getCallResultData(
                     urlWithoutQP,
                     "ds_user_id=" + prefManager.getString(USER_ID)
@@ -420,7 +423,6 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
     }
 
     override fun onFacebookUserClicked(position: Int, nodeModel: FacebookNode) {
-        TODO("Not yet implemented")
     }
 
     override fun onDestroy() {

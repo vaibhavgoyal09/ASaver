@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityMitronBinding
+import com.mystikcoder.statussaver.states.MitronEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,7 +104,7 @@ class MitronActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.mitronData.collect { event ->
                 when (event) {
-                    is MainViewModel.MitronEvent.Success -> {
+                    is MitronEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download Started")
                         Utils.startDownload(
@@ -113,7 +114,7 @@ class MitronActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.MitronEvent.Failure -> {
+                    is MitronEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

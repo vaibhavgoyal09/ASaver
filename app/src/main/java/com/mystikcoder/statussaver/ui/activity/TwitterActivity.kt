@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityTwitterBinding
+import com.mystikcoder.statussaver.states.TwitterEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,14 +107,14 @@ class TwitterActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.twitterData.collect { event ->
                 when (event) {
-                    is MainViewModel.TwitterEvent.Loading -> {
+                    is TwitterEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.TwitterEvent.Failure -> {
+                    is TwitterEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.TwitterEvent.Success -> {
+                    is TwitterEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download Started")
                         Utils.startDownload(

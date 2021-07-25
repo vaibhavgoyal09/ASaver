@@ -23,7 +23,7 @@ class ServiceModule {
         @ApplicationContext context: Context
     ): NotificationCompat.Builder =
         NotificationCompat.Builder(context, "Foreground Service Notification")
-            .setSmallIcon(R.drawable.splashstatus)
+            .setSmallIcon(R.drawable.ic_status_splash)
             .setContentTitle(context.resources.getString(R.string.app_name))
             .setContentIntent(
                 PendingIntent.getActivity(

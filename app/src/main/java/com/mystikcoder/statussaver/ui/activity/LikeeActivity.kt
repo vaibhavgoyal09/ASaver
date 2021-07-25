@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityLikeeBinding
+import com.mystikcoder.statussaver.states.LikeeEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,11 +105,11 @@ class LikeeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.likeeData.collect { event ->
                 when (event) {
-                    is MainViewModel.LikeeEvent.Failure -> {
+                    is LikeeEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.LikeeEvent.Success -> {
+                    is LikeeEvent.Success -> {
                         hideProgressBar()
                         Utils.startDownload(
                             event.videoUrl,

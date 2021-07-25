@@ -1,5 +1,6 @@
 package com.mystikcoder.statussaver.services
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -7,15 +8,18 @@ import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import android.util.Patterns
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.background.workers.*
+import com.mystikcoder.statussaver.ui.activity.HomeActivity
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.videoconverter.PlaylistDownloader
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +44,8 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
 
     companion object {
         val isServiceKilled: MutableLiveData<Boolean> = MutableLiveData()
+        const val REQUEST_STORAGE_INTENT_RC = 444444
+        const val REQUEST_STORAGE_NOTIFICATION_ID = 46461
     }
 
     @Inject
@@ -50,11 +56,8 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
     override fun onCreate() {
         super.onCreate()
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
         previousCopiedText = ""
-
         isServiceKilled.value = false
-
         isObserving.postValue(false)
 
         isObserving.observe(this) {
@@ -67,7 +70,6 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
     private fun startService() {
 
         isObserving.postValue(true)
-
         clipboard.addPrimaryClipChangedListener(this)
 
         notificationManager =
@@ -175,12 +177,57 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                     if (Utils.hasWritePermission(this)) {
                         setupListeners()
                     } else {
-                        Utils.createToast(this, "Require storage permission")
+                        showStorageRequireNotification()
                     }
                 }
             } else {
                 Utils.createToast(this, "No Internet connection available")
             }
+        }
+    }
+
+    private fun showStorageRequireNotification() {
+        val intent = Intent(this, HomeActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            REQUEST_STORAGE_INTENT_RC,
+            intent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel(
+                this.resources.getString(R.string.app_name),
+                "No Permission",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                enableLights(true)
+                enableVibration(true)
+                lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+                notificationManager.createNotificationChannel(this)
+            }
+
+            val notificationBuilder =
+                NotificationCompat.Builder(this, this.resources.getString(R.string.app_name))
+                    .setSmallIcon(R.drawable.ic_status_splash)
+                    .setAutoCancel(true)
+                    .setColor(ContextCompat.getColor(this, R.color.iron))
+                    .setLargeIcon(
+                        BitmapFactory.decodeResource(
+                            this.resources,
+                            R.drawable.ic_status_splash
+                        )
+                    )
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setDefaults(-1)
+                    .setContentTitle("Require Storage Permission")
+                    .setContentText("Asaver needs storage access permission to download files")
+                    .setChannelId(this.resources.getString(R.string.app_name))
+                    .setFullScreenIntent(pendingIntent, true)
+
+            notificationManager.notify(REQUEST_STORAGE_NOTIFICATION_ID , notificationBuilder.build())
         }
     }
 
@@ -192,7 +239,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
             if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
 
                 when {
-                    clipText.contains("instagram") -> {
+                    clipText.contains(INSTAGRAM) -> {
 
                         val url = URL(clipText)
                         val host = url.host
@@ -201,7 +248,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                             var urlWithoutQP =
                                 getUrlWithoutParameters(clipText)
 
-                            urlWithoutQP = "$urlWithoutQP?__a=1"
+                            urlWithoutQP = "$urlWithoutQP$INSTAGRAM_PARAMATERS"
 
                             val data = Data.Builder()
                                 .putString(WORK_URL, urlWithoutQP)
@@ -214,35 +261,35 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                                 )
                                 .putString(
                                     WORK_USER_AGENT,
-                                    "Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+"
+                                    INSTAGRAM_USER_AGENT
                                 )
                                 .build()
                             startWorker(data)
                         }
                     }
-                    clipText.contains("sharechat") -> {
+                    clipText.contains(SHARE_CHAT) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                                .putString(WORK_PLATFORM_NAME, "sharechat")
+                                .putString(WORK_PLATFORM_NAME, SHARE_CHAT)
                                 .build()
 
                         startShareChatWorker(data, Utils.ROOT_DIRECTORY_SHARECHAT)
                     }
-                    clipText.contains("roposo") -> {
+                    clipText.contains(ROPOSO) -> {
                         val data = Data.Builder().putString(WORK_URL, clipText)
-                            .putString(WORK_PLATFORM_NAME, "roposo")
+                            .putString(WORK_PLATFORM_NAME, ROPOSO)
                             .build()
 
                         startShareChatWorker(data, Utils.ROOT_DIRECTORY_ROPOSSO)
                     }
-                    clipText.contains("facebook") -> {
+                    clipText.contains(FACEBOOK) -> {
                         val data = Data.Builder().putString(WORK_URL, clipText)
-                            .putString(WORK_PLATFORM_NAME, "facebook")
+                            .putString(WORK_PLATFORM_NAME, FACEBOOK)
                             .build()
 
                         startShareChatWorker(data, Utils.ROOT_DIRECTORY_FACEBOOK)
                     }
-                    clipText.contains("mitron") -> {
+                    clipText.contains(MITRON) -> {
 
                         val split = extractLinks(clipText).split("=")
 
@@ -250,49 +297,49 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                             WORK_URL,
                             arrayOf("https://web.mitron.tv/video/" + split[split.size - 1])[0]
                         )
-                            .putString(WORK_PLATFORM_NAME, "mitron")
+                            .putString(WORK_PLATFORM_NAME, MITRON)
                             .build()
 
                         startShareChatWorker(data, Utils.ROOT_DIRECTORY_MITRON)
                     }
-                    clipText.contains("chingari") -> {
+                    clipText.contains(CHINGARI) -> {
 
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                                .putString(WORK_PLATFORM_NAME, "chingari")
+                                .putString(WORK_PLATFORM_NAME, CHINGARI)
                                 .build()
 
                         startShareChatWorker(data, Utils.ROOT_DIRECTORY_CHINGARI)
                     }
-                    clipText.contains("myjosh") -> {
+                    clipText.contains(JOSH) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
                                 .build()
 
                         startJoshWorker(data)
                     }
-                    clipText.contains("mxtakatak") -> {
+                    clipText.contains(MX_TAKA_TAK) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
                         startMxTakaTakWorker(data.build())
                     }
-                    clipText.contains("twitter.com") -> {
+                    clipText.contains(TWITTER) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
                         startTwitterWorker(data.build())
                     }
-                    clipText.contains("likee") -> {
+                    clipText.contains(LIKEE) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                                .putString(WORK_PLATFORM_NAME, "likee")
+                                .putString(WORK_PLATFORM_NAME, LIKEE)
                         startShareChatWorker(data.build(), Utils.ROOT_DIRECTORY_LIKEE)
                     }
-                    clipText.contains("mojapp") -> {
+                    clipText.contains(MOJ) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
                         startMxTakaTakWorker(data.build())
                     }
-                    clipText.contains("tiktok") -> {
+                    clipText.contains(TIKTOK) -> {
                         val data =
                             Data.Builder().putString(WORK_URL, extractLinks(clipText))
                         startMxTakaTakWorker(data.build())

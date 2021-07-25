@@ -21,12 +21,14 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.mystikcoder.statussaver.model.** { *; }
+-keep class com.mystikcoder.statussaver.services.ClipTextObserverService { *; }
 -keepattributes JavascriptInterface
 
-#-assumenosideeffects class android.util.Log {
-#  public static *** v(...);
-#  public static *** d(...);
-#  public static *** i(...);
-#  public static *** w(...);
-#  public static *** e(...);
-#}
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int i(...);
+    public static int w(...);
+    public static int d(...);
+    public static int e(...);
+}

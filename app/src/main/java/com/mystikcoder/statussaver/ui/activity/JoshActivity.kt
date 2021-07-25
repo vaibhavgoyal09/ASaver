@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityJoshBinding
+import com.mystikcoder.statussaver.states.JoshEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.videoconverter.PlaylistDownloader
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
@@ -114,11 +115,11 @@ class JoshActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.joshData.collect { event ->
                 when (event) {
-                    is MainViewModel.JoshEvent.Failure -> {
+                    is JoshEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.JoshEvent.Success -> {
+                    is JoshEvent.Success -> {
                         hideProgressBar()
                         coroutineScope {
                             kotlin.runCatching {

@@ -19,14 +19,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.mystikcoder.statussaver.databinding.ActivityFacebookBinding
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.adapters.StoryItemsAdapter
 import com.mystikcoder.statussaver.adapters.UsersListAdapter
+import com.mystikcoder.statussaver.databinding.ActivityFacebookBinding
 import com.mystikcoder.statussaver.listeners.UserSelectedListener
 import com.mystikcoder.statussaver.model.facebook.FacebookNode
 import com.mystikcoder.statussaver.model.instagram.TrayModel
+import com.mystikcoder.statussaver.states.facebook.FacebookEvent
+import com.mystikcoder.statussaver.states.facebook.StoriesDataEvent
+import com.mystikcoder.statussaver.states.facebook.UsersDataEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -186,7 +189,7 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
 
             viewModel.facebookData.collect { event ->
                 when (event) {
-                    is MainViewModel.FacebookEvent.Success -> {
+                    is FacebookEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -196,7 +199,7 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
                             event.fileName
                         )
                     }
-                    is MainViewModel.FacebookEvent.Failure -> {
+                    is FacebookEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -207,7 +210,7 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
         lifecycleScope.launchWhenStarted {
             viewModel.usersDataList.collect { event ->
                 when (event) {
-                    is MainViewModel.UsersDataEvent.Success -> {
+                    is UsersDataEvent.Success -> {
 
                         val adapter = UsersListAdapter(
                             applicationContext,
@@ -221,11 +224,11 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
                         binding.storiesRecyclerView.adapter = adapter
                         binding.storiesRecyclerView.visibility = View.VISIBLE
                     }
-                    is MainViewModel.UsersDataEvent.Failure -> {
+                    is UsersDataEvent.Failure -> {
                         binding.loadingStoriesProgressBar.visibility = View.GONE
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.UsersDataEvent.Loading -> {
+                    is UsersDataEvent.Loading -> {
                         binding.loadingStoriesProgressBar.visibility = View.VISIBLE
                     }
                     else -> binding.loadingStoriesProgressBar.isVisible = false
@@ -235,7 +238,7 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
         lifecycleScope.launchWhenStarted {
             viewModel.facebookStoriesData.collect { event ->
                 when (event) {
-                    is MainViewModel.StoriesDataEvent.Success -> {
+                    is StoriesDataEvent.Success -> {
 
                         binding.loadingStoriesDataProgressBar.isVisible = false
                         binding.storiesItemsRecyclerView.visibility = View.VISIBLE
@@ -245,7 +248,7 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
                         binding.storiesItemsRecyclerView.adapter = adapter
 
                     }
-                    is MainViewModel.StoriesDataEvent.Failure -> {
+                    is StoriesDataEvent.Failure -> {
                         binding.loadingStoriesDataProgressBar.isVisible = false
                         binding.storiesItemsRecyclerView.isVisible = false
                         Utils.createToast(applicationContext, event.errorText)

@@ -16,7 +16,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name="com.mystikcoder.statussaver.BaseApplication"
+        android:name=".BaseApplication"
         android:allowBackup="false"
         android:icon="@mipmap/status_logo"
         android:label="@string/app_name"
@@ -26,31 +26,33 @@
         android:theme="@style/Theme.StatusSaverUI"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.TikTokActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.GalleryActivity" />
+        <activity android:name=".ui.activity.PrivacyPolicyViewActivity"></activity>
+        <activity android:name=".ui.activity.TikTokActivity" />
+        <activity android:name=".ui.activity.GalleryActivity" />
 
         <service
-            android:name="com.mystikcoder.statussaver.services.ClipTextObserverService"
+            android:name=".services.ClipTextObserverService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.FacebookLoginActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.VideoPlayActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.MojActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.MxTakaTakActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.MitronActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.ChingariActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.JoshActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.TwitterActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.ShareChatActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.LoginActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.RoposoActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.LikeeActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.WhatsAppActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.FacebookActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.FullImageViewActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.InstagramActivity" />
-        <activity android:name="com.mystikcoder.statussaver.ui.activity.HomeActivity"
+        <activity android:name=".ui.activity.FacebookLoginActivity" />
+        <activity android:name=".ui.activity.VideoPlayActivity" />
+        <activity android:name=".ui.activity.MojActivity" />
+        <activity android:name=".ui.activity.MxTakaTakActivity" />
+        <activity android:name=".ui.activity.MitronActivity" />
+        <activity android:name=".ui.activity.ChingariActivity" />
+        <activity android:name=".ui.activity.JoshActivity" />
+        <activity android:name=".ui.activity.TwitterActivity" />
+        <activity android:name=".ui.activity.ShareChatActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.RoposoActivity" />
+        <activity android:name=".ui.activity.LikeeActivity" />
+        <activity android:name=".ui.activity.WhatsAppActivity" />
+        <activity android:name=".ui.activity.FacebookActivity" />
+        <activity android:name=".ui.activity.FullImageViewActivity" />
+        <activity android:name=".ui.activity.InstagramActivity" />
+        <activity
+            android:name=".ui.activity.HomeActivity"
             android:theme="@style/SplashImage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mystikcoder.statussaver.databinding.WhatsappItemsLayoutBinding
 import com.bumptech.glide.Glide
 import com.mystikcoder.statussaver.R
+import com.mystikcoder.statussaver.databinding.WhatsappItemsLayoutBinding
 import com.mystikcoder.statussaver.model.whatsapp.WhatsAppModel
 import com.mystikcoder.statussaver.ui.activity.FullImageViewActivity
 import com.mystikcoder.statussaver.ui.activity.VideoPlayActivity

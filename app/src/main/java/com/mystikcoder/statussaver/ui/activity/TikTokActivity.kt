@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityTikTokBinding
+import com.mystikcoder.statussaver.states.TikTokEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,10 +105,10 @@ class TikTokActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.tiktikData.collect { event ->
                 when (event) {
-                    is MainViewModel.TikTokEvent.Loading -> {
+                    is TikTokEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.TikTokEvent.Success -> {
+                    is TikTokEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -117,7 +118,7 @@ class TikTokActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.TikTokEvent.Failure -> {
+                    is TikTokEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

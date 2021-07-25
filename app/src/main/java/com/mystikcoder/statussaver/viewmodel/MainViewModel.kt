@@ -20,6 +20,15 @@ import com.mystikcoder.statussaver.repository.instagram.FullDetailsInfoApiInterf
 import com.mystikcoder.statussaver.repository.instagram.StoriesApiInterface
 import com.mystikcoder.statussaver.repository.mxtakatak.CallMxTakaTakInterface
 import com.mystikcoder.statussaver.repository.twitter.CallTwitterInterface
+import com.mystikcoder.statussaver.states.*
+import com.mystikcoder.statussaver.states.facebook.FacebookEvent
+import com.mystikcoder.statussaver.states.facebook.StoriesDataEvent
+import com.mystikcoder.statussaver.states.facebook.UsersDataEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramStoryDetailEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramStoryEvent
+import com.mystikcoder.statussaver.utils.FACEBOOK_USER_AGENT
+import com.mystikcoder.statussaver.utils.INSTAGRAM_USER_AGENT
 import com.mystikcoder.statussaver.utils.Resource
 import com.mystikcoder.statussaver.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,11 +58,6 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     //region:: ChingariViewModel
-    sealed class ChingariEvent {
-        class Success(val fileName: String, val videoUrl: String) : ChingariEvent()
-        class Failure(val errorText: String) : ChingariEvent()
-        object Empty : ChingariEvent()
-    }
 
     private val _chingariData = MutableStateFlow<ChingariEvent>(ChingariEvent.Empty)
     val chingariData: StateFlow<ChingariEvent> = _chingariData
@@ -82,24 +86,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: FacebookViewModel
-    sealed class FacebookEvent {
-        class Success(val fileName: String, val videoUrl: String) : FacebookEvent()
-        class Failure(val errorText: String) : FacebookEvent()
-        object Empty : FacebookEvent()
-    }
-
-    sealed class UsersDataEvent {
-        class Success(val list: ArrayList<FacebookNode>?) : UsersDataEvent()
-        class Failure(val errorText: String) : UsersDataEvent()
-        object Empty : UsersDataEvent()
-        object Loading : UsersDataEvent()
-    }
-
-    sealed class StoriesDataEvent {
-        class Success(val list: ArrayList<FacebookNode>?) : StoriesDataEvent()
-        class Failure(val errorText: String) : StoriesDataEvent()
-        object Empty : StoriesDataEvent()
-    }
 
     private val _facebookData = MutableStateFlow<FacebookEvent>(FacebookEvent.Empty)
     val facebookData: StateFlow<FacebookEvent> = _facebookData
@@ -161,7 +147,7 @@ class MainViewModel @Inject constructor(
             .addHeaders("cookie", fbCookies)
             .addHeaders(
                 "user-agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
+                FACEBOOK_USER_AGENT
             )
             .addHeaders(HttpConnection.CONTENT_TYPE, "application/json")
             .addBodyParameter("fb_dtsg", fbKey)
@@ -218,7 +204,7 @@ class MainViewModel @Inject constructor(
             .addHeaders("cookies", fbCookies)
             .addHeaders(
                 "user-agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36"
+                FACEBOOK_USER_AGENT
             )
             .addHeaders(HttpConnection.CONTENT_TYPE, "application/json")
             .addBodyParameter(
@@ -277,26 +263,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: InstagramViewModel
-    sealed class InstagramStoryDetailEvent {
-        class Success(val data: ArrayList<ItemModel>?) : InstagramStoryDetailEvent()
-        class Failure(val errorText: String) : InstagramStoryDetailEvent()
-        object Loading : InstagramStoryDetailEvent()
-        object Empty : InstagramStoryDetailEvent()
-    }
-
-    sealed class InstagramStoryEvent {
-        class Success(val data: ArrayList<TrayModel>?) : InstagramStoryEvent()
-        class Failure(val errorText: String) : InstagramStoryEvent()
-        object Loading : InstagramStoryEvent()
-        object Empty : InstagramStoryEvent()
-    }
-
-    sealed class InstagramEvent {
-        class Success(val mediaUrl: ArrayList<String>?) : InstagramEvent()
-        class Failure(val errorText: String) : InstagramEvent()
-        object Loading : InstagramEvent()
-        object Empty : InstagramEvent()
-    }
 
     private val _instagramData = MutableStateFlow<InstagramEvent>(InstagramEvent.Empty)
     private val _instagramStoriesData =
@@ -329,13 +295,13 @@ class MainViewModel @Inject constructor(
                     callResultRepository.callResult(
                         url,
                         "",
-                        "Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+"
+                        INSTAGRAM_USER_AGENT
                     )
                 } else {
                     callResultRepository.callResult(
                         url,
                         cookie!!,
-                        "Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+"
+                        INSTAGRAM_USER_AGENT
                     )
                 }
             when (callResultResponse) {
@@ -414,13 +380,13 @@ class MainViewModel @Inject constructor(
                 storiesRepository.getStoriesApi(
                     "https://i.instagram.com/api/v1/feed/reels_tray/",
                     "",
-                    "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\""
+                    "\"$INSTAGRAM_USER_AGENT\""
                 )
             } else {
                 storiesRepository.getStoriesApi(
                     "https://i.instagram.com/api/v1/feed/reels_tray/",
                     cookie!!,
-                    "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\""
+                    "\"$INSTAGRAM_USER_AGENT\""
                 )
             }
             when (storiesResponse) {
@@ -442,7 +408,7 @@ class MainViewModel @Inject constructor(
             storiesDetailResponse = fullDetailsRepository.getFullDetailInfoApi(
                 "https://i.instagram.com/api/v1/users/$userId/full_detail_info?max_id=",
                 cookie,
-                "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\""
+                "\"$INSTAGRAM_USER_AGENT\""
             )
             when (storiesDetailResponse) {
                 is Resource.Success -> {
@@ -459,11 +425,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: JoshViewModel
-    sealed class JoshEvent {
-        class Success(val fileName: String, val videoUrl: String) : JoshEvent()
-        class Failure(val errorText: String) : JoshEvent()
-        object Empty : JoshEvent()
-    }
 
     private val _joshData = MutableStateFlow<JoshEvent>(JoshEvent.Empty)
     val joshData: StateFlow<JoshEvent> = _joshData
@@ -499,11 +460,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: LikeeViewModel
-    sealed class LikeeEvent {
-        class Success(val videoUrl: String, val fileName: String) : LikeeEvent()
-        class Failure(val errorText: String) : LikeeEvent()
-        object Empty : LikeeEvent()
-    }
 
     private val _likeeData = MutableStateFlow<LikeeEvent>(LikeeEvent.Empty)
     val likeeData: StateFlow<LikeeEvent> = _likeeData
@@ -536,11 +492,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: MitronViewModel
-    sealed class MitronEvent {
-        class Success(val fileName: String, val videoUrl: String) : MitronEvent()
-        class Failure(val errorText: String) : MitronEvent()
-        object Empty : MitronEvent()
-    }
 
     private val _mitronData = MutableStateFlow<MitronEvent>(MitronEvent.Empty)
     val mitronData: StateFlow<MitronEvent> = _mitronData
@@ -572,12 +523,7 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: MojViewModel
-    sealed class MojEvent {
-        class Success(val fileName: String, val mediaUrl: String) : MojEvent()
-        class Failure(val errorText: String) : MojEvent()
-        object Loading : MojEvent()
-        object Empty : MojEvent()
-    }
+
 
     private val _mojData = MutableStateFlow<MojEvent>(MojEvent.Empty)
     val mojData: StateFlow<MojEvent> = _mojData
@@ -616,12 +562,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: TikTokViewModel
-    sealed class TikTokEvent {
-        class Success(val fileName: String, val mediaUrl: String) : TikTokEvent()
-        class Failure(val errorText: String) : TikTokEvent()
-        object Loading : TikTokEvent()
-        object Empty : TikTokEvent()
-    }
 
     private val _tiktokData = MutableStateFlow<TikTokEvent>(TikTokEvent.Empty)
     val tiktikData: StateFlow<TikTokEvent> = _tiktokData
@@ -660,12 +600,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     ///region:: MxTakaTakViewModel
-    sealed class MxTakaTakEvent {
-        class Success(val fileName: String, val mediaUrl: String) : MxTakaTakEvent()
-        class Failure(val errorText: String) : MxTakaTakEvent()
-        object Loading : MxTakaTakEvent()
-        object Empty : MxTakaTakEvent()
-    }
 
     private val _mxTakaTakData = MutableStateFlow<MxTakaTakEvent>(MxTakaTakEvent.Empty)
     val mxTakaTakData: StateFlow<MxTakaTakEvent> = _mxTakaTakData
@@ -706,11 +640,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: RoposoViewModel
-    sealed class RopossoEvent {
-        class Success(val fileName: String, val videoUrl: String) : RopossoEvent()
-        class Failure(val errorText: String) : RopossoEvent()
-        object Empty : RopossoEvent()
-    }
 
     private val _roposoData = MutableStateFlow<RopossoEvent>(RopossoEvent.Empty)
     val roposoData: StateFlow<RopossoEvent> = _roposoData
@@ -744,11 +673,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: ShareChatViewModel
-    sealed class ShareChatEvent {
-        class Success(val fileName: String, val videoUrl: String) : ShareChatEvent()
-        class Failure(val errorText: String) : ShareChatEvent()
-        object Empty : ShareChatEvent()
-    }
 
     private val _shareChatData = MutableStateFlow<ShareChatEvent>(ShareChatEvent.Empty)
     val shareChatData: StateFlow<ShareChatEvent> = _shareChatData
@@ -790,12 +714,6 @@ class MainViewModel @Inject constructor(
     //endregion
 
     //region:: TwitterViewModel
-    sealed class TwitterEvent {
-        class Success(val fileName: String, val mediaUrl: String) : TwitterEvent()
-        class Failure(val errorText: String) : TwitterEvent()
-        object Loading : TwitterEvent()
-        object Empty : TwitterEvent()
-    }
 
     private val _twitterData = MutableStateFlow<TwitterEvent>(TwitterEvent.Empty)
     val twitterData: StateFlow<TwitterEvent> = _twitterData

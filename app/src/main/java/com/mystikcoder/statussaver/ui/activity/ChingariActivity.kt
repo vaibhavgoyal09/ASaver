@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityChingariBinding
+import com.mystikcoder.statussaver.states.ChingariEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +105,7 @@ class ChingariActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.chingariData.collect { event ->
                 when (event) {
-                    is MainViewModel.ChingariEvent.Success -> {
+                    is ChingariEvent.Success -> {
                         hideProgressBar()
                         binding.inputLink.setText("")
                         Utils.createToast(applicationContext, "Download Started")
@@ -115,7 +116,7 @@ class ChingariActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.ChingariEvent.Failure -> {
+                    is ChingariEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

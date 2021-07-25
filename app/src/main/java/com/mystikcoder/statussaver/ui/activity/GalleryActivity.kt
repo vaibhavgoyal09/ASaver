@@ -82,6 +82,7 @@ class GalleryActivity : AppCompatActivity() {
     private fun checkPermissions() {
         if (!Utils.hasReadPermission(this)) {
             binding.savedItemsRecyclerView.visibility = View.GONE
+            binding.appsSpinner.visibility = View.GONE
             binding.imageNoFileFound?.visibility = View.VISIBLE
             binding.buttonAcceptPermissions?.visibility = View.VISIBLE
             binding.textView?.visibility = View.VISIBLE
@@ -95,6 +96,7 @@ class GalleryActivity : AppCompatActivity() {
             binding.buttonAcceptPermissions?.visibility = View.GONE
             binding.textView?.visibility = View.GONE
             binding.savedItemsRecyclerView.visibility = View.VISIBLE
+            binding.appsSpinner.visibility = View.VISIBLE
 
             binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
@@ -127,6 +129,7 @@ class GalleryActivity : AppCompatActivity() {
 
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (Utils.hasReadPermission(this)){
+            binding.appsSpinner.visibility = View.VISIBLE
             binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
                 override fun onItemSelected(
@@ -158,6 +161,7 @@ class GalleryActivity : AppCompatActivity() {
             binding.buttonAcceptPermissions?.visibility = View.VISIBLE
             binding.textView?.visibility = View.VISIBLE
             binding.savedItemsRecyclerView.visibility = View.GONE
+            binding.appsSpinner.visibility = View.GONE
         }
     }
 
@@ -172,11 +176,13 @@ class GalleryActivity : AppCompatActivity() {
             binding.buttonAcceptPermissions?.visibility = View.VISIBLE
             binding.textView?.visibility = View.VISIBLE
             binding.savedItemsRecyclerView.visibility = View.GONE
+            binding.appsSpinner.visibility = View.GONE
         } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             binding.imageNoFileFound?.visibility = View.GONE
             binding.buttonAcceptPermissions?.visibility = View.GONE
             binding.textView?.visibility = View.GONE
             binding.savedItemsRecyclerView.visibility = View.VISIBLE
+            binding.appsSpinner.visibility = View.VISIBLE
 
             binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 

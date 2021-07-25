@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityMojBinding
+import com.mystikcoder.statussaver.states.MojEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -108,10 +109,10 @@ class MojActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.mojData.collect { event ->
                 when (event) {
-                    is MainViewModel.MojEvent.Loading -> {
+                    is MojEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.MojEvent.Success -> {
+                    is MojEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -121,7 +122,7 @@ class MojActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.MojEvent.Failure -> {
+                    is MojEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

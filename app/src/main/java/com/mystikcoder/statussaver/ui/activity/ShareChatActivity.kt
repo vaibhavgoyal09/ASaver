@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivitySharechatBinding
+import com.mystikcoder.statussaver.states.ShareChatEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -106,7 +107,7 @@ class ShareChatActivity : AppCompatActivity() {
 
             viewModel.shareChatData.collect { event ->
                 when (event) {
-                    is MainViewModel.ShareChatEvent.Success -> {
+                    is ShareChatEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -116,7 +117,7 @@ class ShareChatActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.ShareChatEvent.Failure -> {
+                    is ShareChatEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

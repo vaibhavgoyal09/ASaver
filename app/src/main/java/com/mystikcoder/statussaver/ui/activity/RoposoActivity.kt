@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityRoposoBinding
+import com.mystikcoder.statussaver.states.RopossoEvent
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,7 +106,7 @@ class RoposoActivity : AppCompatActivity() {
 
             viewModel.roposoData.collect { event ->
                 when (event) {
-                    is MainViewModel.RopossoEvent.Success -> {
+                    is RopossoEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -115,7 +116,7 @@ class RoposoActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.RopossoEvent.Failure -> {
+                    is RopossoEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }

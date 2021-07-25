@@ -18,10 +18,13 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.work.*
-import com.mystikcoder.statussaver.databinding.ActivityHomeScreenBinding
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
+import com.mystikcoder.statussaver.databinding.ActivityHomeScreenBinding
 import com.mystikcoder.statussaver.services.ClipTextObserverService
+import com.mystikcoder.statussaver.states.*
+import com.mystikcoder.statussaver.states.facebook.FacebookEvent
+import com.mystikcoder.statussaver.states.instagram.InstagramEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.videoconverter.PlaylistDownloader
 import com.mystikcoder.statussaver.viewmodel.*
@@ -87,10 +90,12 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         } else {
-            if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
-                binding.inputLink.setText(clipboardText)
-                clipText = clipboardText
-            }
+           if (clipboard.primaryClipDescription != null){
+               if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
+                   binding.inputLink.setText(clipboardText)
+                   clipText = clipboardText
+               }
+           }
         }
 
         if (intentText == "") {
@@ -265,10 +270,10 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.instagramData.collect { instagramDataEvent ->
                 when (instagramDataEvent) {
-                    is MainViewModel.InstagramEvent.Loading -> {
+                    is InstagramEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.InstagramEvent.Success -> {
+                    is InstagramEvent.Success -> {
                         hideProgressBar()
 
                         instagramDataEvent.mediaUrl?.let {
@@ -285,7 +290,7 @@ class HomeActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    is MainViewModel.InstagramEvent.Failure -> {
+                    is InstagramEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, instagramDataEvent.errorText)
                     }
@@ -296,7 +301,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.mitronData.collect { event ->
                 when (event) {
-                    is MainViewModel.MitronEvent.Success -> {
+                    is MitronEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download Started")
                         Utils.startDownload(
@@ -306,7 +311,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.MitronEvent.Failure -> {
+                    is MitronEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -317,10 +322,10 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.mxTakaTakData.collect { event ->
                 when (event) {
-                    is MainViewModel.MxTakaTakEvent.Loading -> {
+                    is MxTakaTakEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.MxTakaTakEvent.Success -> {
+                    is MxTakaTakEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -330,7 +335,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.MxTakaTakEvent.Failure -> {
+                    is MxTakaTakEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -342,10 +347,10 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.tiktikData.collect { event ->
                 when (event) {
-                    is MainViewModel.TikTokEvent.Loading -> {
+                    is TikTokEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.TikTokEvent.Success -> {
+                    is TikTokEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -355,7 +360,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.TikTokEvent.Failure -> {
+                    is TikTokEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -367,7 +372,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.chingariData.collect { event ->
                 when (event) {
-                    is MainViewModel.ChingariEvent.Success -> {
+                    is ChingariEvent.Success -> {
                         hideProgressBar()
                         binding.inputLink.setText("")
                         Utils.createToast(applicationContext, "Download Started")
@@ -378,7 +383,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.ChingariEvent.Failure -> {
+                    is ChingariEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -390,7 +395,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.facebookData.collect { event ->
                 when (event) {
-                    is MainViewModel.FacebookEvent.Success -> {
+                    is FacebookEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -400,7 +405,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.FacebookEvent.Failure -> {
+                    is FacebookEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -411,11 +416,11 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.joshData.collect { event ->
                 when (event) {
-                    is MainViewModel.JoshEvent.Failure -> {
+                    is JoshEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.JoshEvent.Success -> {
+                    is JoshEvent.Success -> {
                         hideProgressBar()
 
                         kotlin.runCatching {
@@ -440,11 +445,11 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.likeeData.collect { event ->
                 when (event) {
-                    is MainViewModel.LikeeEvent.Failure -> {
+                    is LikeeEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.LikeeEvent.Success -> {
+                    is LikeeEvent.Success -> {
                         hideProgressBar()
                         Utils.startDownload(
                             event.videoUrl,
@@ -460,7 +465,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.roposoData.collect { event ->
                 when (event) {
-                    is MainViewModel.RopossoEvent.Success -> {
+                    is RopossoEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -470,7 +475,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.RopossoEvent.Failure -> {
+                    is RopossoEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -482,7 +487,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.shareChatData.collect { event ->
                 when (event) {
-                    is MainViewModel.ShareChatEvent.Success -> {
+                    is ShareChatEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download started")
                         Utils.startDownload(
@@ -492,7 +497,7 @@ class HomeActivity : AppCompatActivity() {
                             event.fileName
                         )
                     }
-                    is MainViewModel.ShareChatEvent.Failure -> {
+                    is ShareChatEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
@@ -504,14 +509,14 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.twitterData.collect { event ->
                 when (event) {
-                    is MainViewModel.TwitterEvent.Loading -> {
+                    is TwitterEvent.Loading -> {
                         showProgressBar()
                     }
-                    is MainViewModel.TwitterEvent.Failure -> {
+                    is TwitterEvent.Failure -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, event.errorText)
                     }
-                    is MainViewModel.TwitterEvent.Success -> {
+                    is TwitterEvent.Success -> {
                         hideProgressBar()
                         Utils.createToast(applicationContext, "Download Started")
                         Utils.startDownload(
