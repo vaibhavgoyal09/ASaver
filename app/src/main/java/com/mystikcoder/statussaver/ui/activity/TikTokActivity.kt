@@ -19,7 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityTikTokBinding
-import com.mystikcoder.statussaver.states.TikTokEvent
+import com.mystikcoder.statussaver.events.TikTokEvent
+import com.mystikcoder.statussaver.utils.DialogUtil
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,11 @@ class TikTokActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
+
         binding.buttonDownload.setOnClickListener {
             if (Utils.isNetworkAvailable(applicationContext)) {
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -154,6 +160,15 @@ class TikTokActivity : AppCompatActivity() {
         binding.buttonDownload.visibility = View.GONE
         binding.buttonPasteLink.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
+        }
     }
 
     private fun hideProgressBar() {

@@ -19,7 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivitySharechatBinding
-import com.mystikcoder.statussaver.states.ShareChatEvent
+import com.mystikcoder.statussaver.events.ShareChatEvent
+import com.mystikcoder.statussaver.utils.DialogUtil
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +56,11 @@ class ShareChatActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
+
         binding.buttonDownload.setOnClickListener {
             if (Utils.isNetworkAvailable(applicationContext)) {
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -137,6 +143,15 @@ class ShareChatActivity : AppCompatActivity() {
         } else {
             showProgressBar()
             viewModel.getShareChatData(url)
+        }
+    }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
         }
     }
 

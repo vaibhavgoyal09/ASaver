@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns.WEB_URL
@@ -21,10 +22,10 @@ import androidx.work.*
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityHomeScreenBinding
+import com.mystikcoder.statussaver.events.*
+import com.mystikcoder.statussaver.events.facebook.FacebookEvent
+import com.mystikcoder.statussaver.events.instagram.InstagramEvent
 import com.mystikcoder.statussaver.services.ClipTextObserverService
-import com.mystikcoder.statussaver.states.*
-import com.mystikcoder.statussaver.states.facebook.FacebookEvent
-import com.mystikcoder.statussaver.states.instagram.InstagramEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.videoconverter.PlaylistDownloader
 import com.mystikcoder.statussaver.viewmodel.*
@@ -55,9 +56,11 @@ class HomeActivity : AppCompatActivity() {
 
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-        Intent(applicationContext, ClipTextObserverService::class.java).also {
-            it.action = START_SERVICE
-            startService(it)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            Intent(applicationContext, ClipTextObserverService::class.java).also {
+                it.action = START_SERVICE
+                startService(it)
+            }
         }
         initViews()
         checkPermission()
@@ -90,12 +93,12 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         } else {
-           if (clipboard.primaryClipDescription != null){
-               if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
-                   binding.inputLink.setText(clipboardText)
-                   clipText = clipboardText
-               }
-           }
+            if (clipboard.primaryClipDescription != null) {
+                if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
+                    binding.inputLink.setText(clipboardText)
+                    clipText = clipboardText
+                }
+            }
         }
 
         if (intentText == "") {
@@ -116,6 +119,15 @@ class HomeActivity : AppCompatActivity() {
 
         binding.layoutRateApp.setOnClickListener {
             Utils.rateApp(applicationContext)
+        }
+
+        binding.layoutPrivacyPolicy.setOnClickListener {
+            Intent(
+                Intent.ACTION_VIEW
+            ).also {
+                it.data = Uri.parse(PRIVACY_POLICY_URL)
+                startActivity(it)
+            }
         }
 
         binding.layoutFacebook.setOnClickListener {
@@ -570,7 +582,7 @@ class HomeActivity : AppCompatActivity() {
         pasteLink()
     }
 
-    fun checkPermission() {
+    private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= 29) {
             if (!Utils.hasReadPermission(this)) {
                 ActivityCompat.requestPermissions(
@@ -821,6 +833,7 @@ class HomeActivity : AppCompatActivity() {
         if (isFirstTimeClicked) {
             Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
             isFirstTimeClicked = false
+            Handler(mainLooper).postDelayed({ isFirstTimeClicked = true }, 3000L)
             return
         } else {
             super.onBackPressed()

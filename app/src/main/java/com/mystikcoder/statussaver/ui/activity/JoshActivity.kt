@@ -19,7 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityJoshBinding
-import com.mystikcoder.statussaver.states.JoshEvent
+import com.mystikcoder.statussaver.events.JoshEvent
+import com.mystikcoder.statussaver.utils.DialogUtil
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.videoconverter.PlaylistDownloader
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
@@ -49,6 +50,10 @@ class JoshActivity : AppCompatActivity() {
                     binding.inputLink.setText(Utils.extractLinks(clipboard.primaryClip?.getItemAt(0)?.text.toString()))
                 }
             }
+        }
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
         }
 
         binding.imageBack.setOnClickListener {
@@ -163,6 +168,15 @@ class JoshActivity : AppCompatActivity() {
         binding.buttonDownload.visibility = View.VISIBLE
         binding.buttonPasteLink.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
+    }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
+        }
     }
 
     override fun onResume() {

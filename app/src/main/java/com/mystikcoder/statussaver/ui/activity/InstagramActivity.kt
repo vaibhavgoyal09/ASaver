@@ -30,9 +30,9 @@ import com.mystikcoder.statussaver.databinding.ActivityInstagramBinding
 import com.mystikcoder.statussaver.listeners.UserSelectedListener
 import com.mystikcoder.statussaver.model.facebook.FacebookNode
 import com.mystikcoder.statussaver.model.instagram.TrayModel
-import com.mystikcoder.statussaver.states.instagram.InstagramEvent
-import com.mystikcoder.statussaver.states.instagram.InstagramStoryDetailEvent
-import com.mystikcoder.statussaver.states.instagram.InstagramStoryEvent
+import com.mystikcoder.statussaver.events.instagram.InstagramEvent
+import com.mystikcoder.statussaver.events.instagram.InstagramStoryDetailEvent
+import com.mystikcoder.statussaver.events.instagram.InstagramStoryEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,6 +61,10 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
 
     private fun initViews() {
         val isInstaLoggedIn = prefManager.getBoolean(IS_INSTA_LOGGED_IN)
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
 
         binding.inputLink.setText(intent?.getStringExtra("CopyIntent"))
 
@@ -400,9 +404,17 @@ class InstagramActivity : AppCompatActivity(), UserSelectedListener {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+
         if (alertDialog != null && alertDialog!!.isShowing){
             alertDialog = null
+            super.onBackPressed()
+        }
+
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
         }
     }
 

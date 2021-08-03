@@ -19,7 +19,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityRoposoBinding
-import com.mystikcoder.statussaver.states.RopossoEvent
+import com.mystikcoder.statussaver.events.RopossoEvent
+import com.mystikcoder.statussaver.utils.DialogUtil
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,11 @@ class RoposoActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
+
         binding.buttonDownload.setOnClickListener {
             if (Utils.isNetworkAvailable(applicationContext)) {
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -123,6 +129,15 @@ class RoposoActivity : AppCompatActivity() {
                     else -> hideProgressBar()
                 }
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
         }
     }
 

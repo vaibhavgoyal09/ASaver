@@ -9,6 +9,7 @@ import javax.inject.Inject
 class CallResultResult @Inject constructor(
     private val apiService: ApiService
 ) : CallResultInterface {
+
     override suspend fun callResult(
         value: String,
         cookie: String,

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_sheet_bg">
+
+    <View
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_2sdp"
+        android:background="@drawable/view_bg"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layoutAutomaticDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_16sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/automatic_download"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/automatic_download_tutorial_image"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="@string/just_click_copy_link_and_download_will_start_automatically"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/blue_grey_500"
+                    android:layout_marginTop="@dimen/_8sdp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutManualDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_12sdp">
+
+                <TextView
+                    android:id="@+id/textManualDownload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/manual_download"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/manual_download_image_1"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="@string/click_share_to"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/manual_download_image_2"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="@string/select_asaver_app"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:layout_marginStart="@dimen/_30sdp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/manual_download_image_3"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_13ssp"
+                    android:textColor="@color/iron"
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="@string/click_download"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

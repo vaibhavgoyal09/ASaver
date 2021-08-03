@@ -1,0 +1,10 @@
+package com.mystikcoder.statussaver.events.instagram
+
+import com.mystikcoder.statussaver.model.instagram.ItemModel
+
+sealed class InstagramStoryDetailEvent {
+    class Success(val data: ArrayList<ItemModel>?) : InstagramStoryDetailEvent()
+    class Failure(val errorText: String) : InstagramStoryDetailEvent()
+    object Loading : InstagramStoryDetailEvent()
+    object Empty : InstagramStoryDetailEvent()
+}

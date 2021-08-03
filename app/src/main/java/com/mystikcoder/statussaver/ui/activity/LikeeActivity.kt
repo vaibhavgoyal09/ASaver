@@ -18,7 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityLikeeBinding
-import com.mystikcoder.statussaver.states.LikeeEvent
+import com.mystikcoder.statussaver.events.LikeeEvent
+import com.mystikcoder.statussaver.utils.DialogUtil
 import com.mystikcoder.statussaver.utils.Utils
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,11 @@ class LikeeActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
+
         binding.buttonDownload.setOnClickListener {
             if (Utils.isNetworkAvailable(applicationContext)) {
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -135,6 +141,15 @@ class LikeeActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
         }
     }
 

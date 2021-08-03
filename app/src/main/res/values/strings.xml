@@ -49,4 +49,10 @@
     <string name="log_out">Log out</string>
     <string name="cancel">Cancel</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="automatic_download">Automatic Download</string>
+    <string name="just_click_copy_link_and_download_will_start_automatically">Just click copy link and download will start automatically</string>
+    <string name="manual_download">Manual Download</string>
+    <string name="click_share_to">Click share to</string>
+    <string name="select_asaver_app">Select Asaver app</string>
+    <string name="click_download">Click download</string>
 </resources>

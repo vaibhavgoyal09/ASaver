@@ -27,9 +27,9 @@ import com.mystikcoder.statussaver.databinding.ActivityFacebookBinding
 import com.mystikcoder.statussaver.listeners.UserSelectedListener
 import com.mystikcoder.statussaver.model.facebook.FacebookNode
 import com.mystikcoder.statussaver.model.instagram.TrayModel
-import com.mystikcoder.statussaver.states.facebook.FacebookEvent
-import com.mystikcoder.statussaver.states.facebook.StoriesDataEvent
-import com.mystikcoder.statussaver.states.facebook.UsersDataEvent
+import com.mystikcoder.statussaver.events.facebook.FacebookEvent
+import com.mystikcoder.statussaver.events.facebook.StoriesDataEvent
+import com.mystikcoder.statussaver.events.facebook.UsersDataEvent
 import com.mystikcoder.statussaver.utils.*
 import com.mystikcoder.statussaver.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,6 +58,10 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
 
     private fun initViews() {
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        binding.imageInfo.setOnClickListener {
+            DialogUtil.openBottomSheetDialog(this)
+        }
 
         if (clipboard.hasPrimaryClip()) {
             if (clipboard.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!) {
@@ -329,9 +333,17 @@ class FacebookActivity : AppCompatActivity(), UserSelectedListener {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+
         if (alertDialog != null && alertDialog!!.isShowing){
             alertDialog = null
+            super.onBackPressed()
+        }
+
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
         }
     }
 

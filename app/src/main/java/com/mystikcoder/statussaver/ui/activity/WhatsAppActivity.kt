@@ -8,6 +8,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.adapters.WhatsAppViewPagerAdapter
 import com.mystikcoder.statussaver.databinding.ActivityWhatsappBinding
+import com.mystikcoder.statussaver.utils.DialogUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,4 +40,14 @@ class WhatsAppActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
+    override fun onBackPressed() {
+        if (DialogUtil.isSheetShowing()){
+            DialogUtil.hideSheet()
+            return
+        }else{
+            super.onBackPressed()
+        }
+    }
+
 }

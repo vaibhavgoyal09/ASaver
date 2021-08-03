@@ -588,7 +588,8 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:contentDescription="@string/saved"
-                            android:padding="@dimen/_2sdp"
+                            android:padding="@dimen/_4sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             android:src="@drawable/ic_privacy_policy"
                             app:tint="@color/backgroundColor" />
 
@@ -603,7 +604,6 @@
                             android:textSize="@dimen/_14ssp" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 

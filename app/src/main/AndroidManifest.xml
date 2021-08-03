@@ -26,7 +26,6 @@
         android:theme="@style/Theme.StatusSaverUI"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.PrivacyPolicyViewActivity"></activity>
         <activity android:name=".ui.activity.TikTokActivity" />
         <activity android:name=".ui.activity.GalleryActivity" />
 
