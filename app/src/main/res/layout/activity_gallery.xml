@@ -30,18 +30,36 @@
             app:layout_constraintStart_toEndOf="@id/imageBack"
             app:layout_constraintTop_toTopOf="@id/imageBack" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/savedItemsRecyclerView"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appsSpinner"
-            app:spanCount="2"
-            tools:listitem="@layout/saved_items_layout" />
+            app:layout_constraintTop_toBottomOf="@id/appsSpinner">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/savedItemsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/saved_items_layout" />
+
+            <TextView
+                android:id="@+id/textNoData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/athens_gray"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
+                android:fontFamily="@font/ubuntu_bold"
+                android:includeFontPadding="false"
+                android:text="@string/no_data_found"/>
+
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/imageNoFileFound"
@@ -49,9 +67,9 @@
             android:layout_height="@dimen/_250sdp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_no_data"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.3" />
@@ -61,14 +79,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_12sdp"
             android:backgroundTint="@color/river_bed"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/accept_permissions"
             android:textColor="@color/blue_grey"
-            app:cornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_8sdp"
             android:visibility="gone"
+            app:cornerRadius="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@id/imageNoFileFound"
             app:layout_constraintStart_toStartOf="@id/imageNoFileFound"
             app:layout_constraintTop_toBottomOf="@id/textView" />
@@ -77,12 +95,12 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/app_needs_read_storage_permission_to_show_downloaded_files"
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/iron"
             android:padding="@dimen/_4sdp"
-            android:visibility="gone"
+            android:text="@string/app_needs_read_storage_permission_to_show_downloaded_files"
             android:textAlignment="center"
+            android:textColor="@color/iron"
+            android:textSize="@dimen/_12ssp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/imageNoFileFound"
             app:layout_constraintStart_toStartOf="@id/imageNoFileFound"
             app:layout_constraintTop_toBottomOf="@id/imageNoFileFound" />

@@ -55,6 +55,9 @@ class GalleryActivity : AppCompatActivity() {
 
         viewModel.savedFiles.observe(this) {
             binding.savedItemsRecyclerView.adapter = FileListAdapter(this, it)
+            if (it.isEmpty()){
+                binding.textNoData?.visibility = View.VISIBLE
+            }
         }
         binding.imageBack.setOnClickListener {
             onBackPressed()
