@@ -10,7 +10,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/placeholder"

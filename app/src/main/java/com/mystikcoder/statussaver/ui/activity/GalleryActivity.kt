@@ -55,9 +55,8 @@ class GalleryActivity : AppCompatActivity() {
 
         viewModel.savedFiles.observe(this) {
             binding.savedItemsRecyclerView.adapter = FileListAdapter(this, it)
-            if (it.isEmpty()){
-                binding.textNoData?.visibility = View.VISIBLE
-            }
+            binding.textNoData?.visibility =
+                if (it.toString().isEmpty()) View.VISIBLE else View.GONE
         }
         binding.imageBack.setOnClickListener {
             onBackPressed()
@@ -101,72 +100,73 @@ class GalleryActivity : AppCompatActivity() {
             binding.savedItemsRecyclerView.visibility = View.VISIBLE
             binding.appsSpinner.visibility = View.VISIBLE
 
-            binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            binding.appsSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[position])
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        lifecycleScope.launch {
+                            viewModel.getSavedFiles(this@GalleryActivity, apps[position])
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        binding.appsSpinner.setSelection(0)
+                        lifecycleScope.launch {
+                            viewModel.getSavedFiles(this@GalleryActivity, apps[0])
+                        }
                     }
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    binding.appsSpinner.setSelection(0)
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[0])
-                    }
-                }
-            }
 
             val adapter =
-                ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
-                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
+                ArrayAdapter(this, R.layout.spinner_list_item, apps)
             binding.appsSpinner.adapter = adapter
         }
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (Utils.hasReadPermission(this)){
-            binding.appsSpinner.visibility = View.VISIBLE
-            binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (Utils.hasReadPermission(this)) {
+                binding.appsSpinner.visibility = View.VISIBLE
+                binding.appsSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[position])
-                    }
-                }
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            lifecycleScope.launch {
+                                viewModel.getSavedFiles(this@GalleryActivity, apps[position])
+                            }
+                        }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    binding.appsSpinner.setSelection(0)
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[0])
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            binding.appsSpinner.setSelection(0)
+                            lifecycleScope.launch {
+                                viewModel.getSavedFiles(this@GalleryActivity, apps[0])
+                            }
+                        }
                     }
-                }
+
+                val adapter =
+                    ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
+                        it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    }
+                binding.appsSpinner.adapter = adapter
+            } else {
+                binding.imageNoFileFound?.visibility = View.VISIBLE
+                binding.buttonAcceptPermissions?.visibility = View.VISIBLE
+                binding.textView?.visibility = View.VISIBLE
+                binding.savedItemsRecyclerView.visibility = View.GONE
+                binding.appsSpinner.visibility = View.GONE
             }
-
-            val adapter =
-                ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
-                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
-            binding.appsSpinner.adapter = adapter
-        }else{
-            binding.imageNoFileFound?.visibility = View.VISIBLE
-            binding.buttonAcceptPermissions?.visibility = View.VISIBLE
-            binding.textView?.visibility = View.VISIBLE
-            binding.savedItemsRecyclerView.visibility = View.GONE
-            binding.appsSpinner.visibility = View.GONE
         }
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -180,33 +180,34 @@ class GalleryActivity : AppCompatActivity() {
             binding.textView?.visibility = View.VISIBLE
             binding.savedItemsRecyclerView.visibility = View.GONE
             binding.appsSpinner.visibility = View.GONE
-        } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             binding.imageNoFileFound?.visibility = View.GONE
             binding.buttonAcceptPermissions?.visibility = View.GONE
             binding.textView?.visibility = View.GONE
             binding.savedItemsRecyclerView.visibility = View.VISIBLE
             binding.appsSpinner.visibility = View.VISIBLE
 
-            binding.appsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            binding.appsSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[position])
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        lifecycleScope.launch {
+                            viewModel.getSavedFiles(this@GalleryActivity, apps[position])
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        binding.appsSpinner.setSelection(0)
+                        lifecycleScope.launch {
+                            viewModel.getSavedFiles(this@GalleryActivity, apps[0])
+                        }
                     }
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    binding.appsSpinner.setSelection(0)
-                    lifecycleScope.launch {
-                        viewModel.getSavedFiles(this@GalleryActivity, apps[0])
-                    }
-                }
-            }
 
             val adapter =
                 ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
