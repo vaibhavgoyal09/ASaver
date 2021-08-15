@@ -4,16 +4,13 @@
     package="com.mystikcoder.statussaver">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:name=".BaseApplication"
@@ -26,32 +23,69 @@
         android:theme="@style/Theme.StatusSaverUI"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.TikTokActivity" />
-        <activity android:name=".ui.activity.GalleryActivity" />
+        <activity
+            android:name=".presentation.ui.activity.TikTokActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.GalleryActivity"
+            android:exported="false" />
 
         <service
-            android:name=".services.ClipTextObserverService"
+            android:name=".presentation.services.ClipTextObserverService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".ui.activity.FacebookLoginActivity" />
-        <activity android:name=".ui.activity.VideoPlayActivity" />
-        <activity android:name=".ui.activity.MojActivity" />
-        <activity android:name=".ui.activity.MxTakaTakActivity" />
-        <activity android:name=".ui.activity.MitronActivity" />
-        <activity android:name=".ui.activity.ChingariActivity" />
-        <activity android:name=".ui.activity.JoshActivity" />
-        <activity android:name=".ui.activity.TwitterActivity" />
-        <activity android:name=".ui.activity.ShareChatActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.RoposoActivity" />
-        <activity android:name=".ui.activity.LikeeActivity" />
-        <activity android:name=".ui.activity.WhatsAppActivity" />
-        <activity android:name=".ui.activity.FacebookActivity" />
-        <activity android:name=".ui.activity.FullImageViewActivity" />
-        <activity android:name=".ui.activity.InstagramActivity" />
         <activity
-            android:name=".ui.activity.HomeActivity"
+            android:name=".presentation.ui.activity.FacebookLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.VideoPlayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.MojActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.MxTakaTakActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.MitronActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.ChingariActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.JoshActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.TwitterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.ShareChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.RoposoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.LikeeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.WhatsAppActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.FacebookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.FullImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.InstagramActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.activity.HomeActivity"
+            android:exported="true"
             android:theme="@style/SplashImage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -102,9 +136,13 @@
         </receiver>
 
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove" />
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.mystikcoder.statussaver.androidx-startup"
+            android:exported="false">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup" />
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

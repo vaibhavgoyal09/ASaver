@@ -18,7 +18,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:context=".ui.activity.HomeActivity">
+                tools:context=".presentation.ui.activity.HomeActivity">
 
                 <TextView
                     android:id="@+id/textAppName"

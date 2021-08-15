@@ -2,17 +2,36 @@ package com.mystikcoder.statussaver.di
 
 import android.content.Context
 import com.google.gson.Gson
-import com.mystikcoder.statussaver.background.api.BackgroundApiService
-import com.mystikcoder.statussaver.background.repository.BackgroundFetcher
-import com.mystikcoder.statussaver.networking.ApiService
-import com.mystikcoder.statussaver.repository.*
-import com.mystikcoder.statussaver.repository.instagram.*
-import com.mystikcoder.statussaver.repository.mxtakatak.CallMxTakaTakInterface
-import com.mystikcoder.statussaver.repository.mxtakatak.CallMxTakaTakRepository
-import com.mystikcoder.statussaver.repository.twitter.CallTwitterInterface
-import com.mystikcoder.statussaver.repository.twitter.CallTwitterRepository
-import com.mystikcoder.statussaver.utils.FileClicked
-import com.mystikcoder.statussaver.utils.PrefManager
+import com.mystikcoder.statussaver.domain.networking.ApiService
+import com.mystikcoder.statussaver.domain.networking.FacebookApiService
+import com.mystikcoder.statussaver.domain.repository.*
+import com.mystikcoder.statussaver.domain.repository.chingari.abstraction.ChingariDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.chingari.implementation.ChingariDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.facebook.abstraction.FacebookRepository
+import com.mystikcoder.statussaver.domain.repository.facebook.implementation.FacebookRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.instagram.*
+import com.mystikcoder.statussaver.domain.repository.instagram.abstraction.InstagramRepository
+import com.mystikcoder.statussaver.domain.repository.instagram.implementation.InstagramRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.josh.abstraction.JoshDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.josh.implementation.JoshDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.likee.abstraction.LikeeDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.likee.implementation.LikeeDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.mitron.abstraction.MitronDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.mitron.implementation.MitronDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.moj.abstraction.MojDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.moj.implementation.MojDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.mxtakatak.abstraction.MxTakaTakDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.mxtakatak.implementation.MxTakaTakDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.roposo.abstraction.RoposoDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.roposo.implementation.RoposeDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.sharechat.abstraction.ShareChatDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.sharechat.implementation.ShareChatDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.tiktok.abstraction.TiktokDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.tiktok.implementation.TiktokDownloadRepositoryImpl
+import com.mystikcoder.statussaver.domain.repository.twitter.abstraction.TwitterDownloadRepository
+import com.mystikcoder.statussaver.domain.repository.twitter.implementation.TwitterDownloadRepositoryImpl
+import com.mystikcoder.statussaver.presentation.utils.FileClicked
+import com.mystikcoder.statussaver.presentation.utils.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,67 +101,109 @@ class AppModule {
     @Provides
     fun providesRetrofit(
         okHttpClient: OkHttpClient
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl("https://www.instagram.com/")
-        .addConverterFactory(GsonConverterFactory.create(Gson()))
-        .client(okHttpClient)
-        .build()
+    ): Retrofit.Builder {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .client(okHttpClient)
+    }
 
     @Singleton
     @Provides
     fun providesApiService(
-        retrofit: Retrofit
+        retrofitBuilder: Retrofit.Builder
     ): ApiService {
+        val retrofit = retrofitBuilder.baseUrl("https://www.instagram.com/").build()
         return retrofit.create(ApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun backgroundApiService(
-        retrofit: Retrofit
-    ): BackgroundApiService = retrofit.create(BackgroundApiService::class.java)
+    fun providesFacebookApi(
+        retrofitBuilder: Retrofit.Builder
+    ): FacebookApiService {
+        val retrofit = retrofitBuilder.baseUrl("https://www.facebook.com/api/graphql/").build()
+        return retrofit.create(FacebookApiService::class.java)
+    }
 
     @Singleton
     @Provides
     fun providesPrefManager(
         @ApplicationContext context: Context
-    ): PrefManager = PrefManager(context)
+    ): Preferences = Preferences(context)
 
     @Singleton
     @Provides
-    fun providesCallResultRepository(api: ApiService): CallResultInterface =
-        CallResultResult(api)
+    fun providesCallResultRepository(api: ApiService): InstagramRepository =
+        InstagramRepositoryImpl(api)
 
     @Singleton
     @Provides
-    fun providesStoriesRepository(api: ApiService): StoriesApiInterface =
-        StoriesApiRepository(api)
-
-    @Singleton
-    @Provides
-    fun providesFullDetailsRepository(api: ApiService): FullDetailsInfoApiInterface =
-        FullDetailsInfoApiRespository(api)
-
-    @Singleton
-    @Provides
-    fun providesTwitterRepository(api: ApiService): CallTwitterInterface =
-        CallTwitterRepository(api)
-
-    @Singleton
-    @Provides
-    fun providesMxTakaTakRepository(api: ApiService): CallMxTakaTakInterface =
-        CallMxTakaTakRepository(api)
-
-    @Singleton
-    @Provides
-    fun providesInstagramDownloaderRepository(
-        api: BackgroundApiService
-    ): BackgroundFetcher =
-        BackgroundFetcher(api)
+    fun providesTwitterRepository(api: ApiService): TwitterDownloadRepository =
+        TwitterDownloadRepositoryImpl(api)
 
     @Singleton
     @Provides
     fun providesFileClicked(
         @ApplicationContext context: Context
     ): FileClicked = FileClicked(context)
+
+    @Singleton
+    @Provides
+    fun providesChinghariRepository(): ChingariDownloadRepository{
+        return ChingariDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesFacebookRepository(api: FacebookApiService): FacebookRepository{
+        return FacebookRepositoryImpl(api)
+    }
+
+    @Singleton
+    @Provides
+    fun providesMitronRepository(): MitronDownloadRepository{
+        return MitronDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesTakaTakRepository(api: ApiService): MxTakaTakDownloadRepository{
+        return MxTakaTakDownloadRepositoryImpl(api)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRoposoRepository(): RoposoDownloadRepository{
+        return RoposeDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesTiktokRepository(api: ApiService): TiktokDownloadRepository{
+        return TiktokDownloadRepositoryImpl(api)
+    }
+
+    @Singleton
+    @Provides
+    fun providesLikeeRepository(): LikeeDownloadRepository{
+        return LikeeDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesJoshRepository(): JoshDownloadRepository{
+        return JoshDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesShareChatRepository(): ShareChatDownloadRepository{
+        return ShareChatDownloadRepositoryImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesMojRepository(api: ApiService): MojDownloadRepository{
+        return MojDownloadRepositoryImpl(api)
+    }
 }

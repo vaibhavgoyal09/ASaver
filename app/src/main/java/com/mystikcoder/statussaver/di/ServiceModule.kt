@@ -1,11 +1,12 @@
 package com.mystikcoder.statussaver.di
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.mystikcoder.statussaver.R
-import com.mystikcoder.statussaver.ui.activity.HomeActivity
+import com.mystikcoder.statussaver.presentation.ui.activity.HomeActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +18,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 @InstallIn(ServiceComponent::class)
 class ServiceModule {
 
+    @SuppressLint("InlinedApi")
     @ServiceScoped
     @Provides
     fun providesBaseNotificationBuilder(
@@ -30,7 +32,7 @@ class ServiceModule {
                     context,
                     12313,
                     Intent(context, HomeActivity::class.java),
-                    0
+                    0 or PendingIntent.FLAG_IMMUTABLE
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_LOW)
