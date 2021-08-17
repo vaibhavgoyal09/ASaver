@@ -12,18 +12,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityInstagramBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
-import com.mystikcoder.statussaver.domain.events.instagram.InstagramUserEvent
-import com.mystikcoder.statussaver.domain.events.instagram.InstagramUserStoriesEvent
 import com.mystikcoder.statussaver.domain.model.instagram.TrayModel
 import com.mystikcoder.statussaver.extensions.*
 import com.mystikcoder.statussaver.listeners.InstagramUserSelectedListener
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.framework.events.instagram.InstagramUserEvent
+import com.mystikcoder.statussaver.presentation.framework.events.instagram.InstagramUserStoriesEvent
 import com.mystikcoder.statussaver.presentation.ui.adapters.StoryItemsAdapter
 import com.mystikcoder.statussaver.presentation.ui.adapters.UsersListAdapter
+import com.mystikcoder.statussaver.presentation.ui.fragment.LogOutDialogFragment
 import com.mystikcoder.statussaver.presentation.utils.DialogUtil
 import com.mystikcoder.statussaver.presentation.utils.NetworkState
 import com.mystikcoder.statussaver.presentation.utils.Utils
@@ -38,22 +40,46 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
     private lateinit var clipboard: ClipboardManager
     private val viewModel: InstagramViewModel by viewModels()
 
+    companion object {
+        const val LOG_OUT_DIALOG_TAG = "tag_log_out_dialog"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_instagram)
 
         clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        if (savedInstanceState != null) {
+            val fragment =
+                supportFragmentManager.findFragmentByTag(LOG_OUT_DIALOG_TAG) as LogOutDialogFragment?
+            fragment?.initDialog(
+                resources.getString(R.string.confirm_log_out_message_insta),
+                logOutListener = {
+                    viewModel.logOut()
+                },
+                cancelListener = {
+                    binding.switchFromPrivateAccount.isChecked = true
+                })
+        }
+
         initViews()
         setupStateObservers()
     }
 
     private fun setupStateObservers() {
 
+        viewModel.isLoggedIn.observe(this) {
+            binding.switchFromPrivateAccount.isChecked = it
+            binding.storiesRecyclerView.isVisible = it
+        }
+
         lifecycleScope.launchWhenStarted {
 
             viewModel.userEvent.collect { event ->
                 when (event) {
                     is InstagramUserEvent.Success -> {
+                        hideLoadingUsersDialog()
                         val adapter = UsersListAdapter(
                             applicationContext,
                             event.data,
@@ -62,12 +88,14 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
                             this@InstagramActivity,
                             "Instagram"
                         )
+                        binding.storiesRecyclerView.adapter = adapter
                     }
                     is InstagramUserEvent.Loading -> {
-
+                        showLoadingUsersDialog()
                     }
                     is InstagramUserEvent.Failure -> {
-
+                        hideLoadingUsersDialog()
+                        applicationContext.showShortToast(event.errorText)
                     }
                     else -> Unit
                 }
@@ -77,7 +105,7 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
         lifecycleScope.launchWhenStarted {
 
             viewModel.downloadEvent.collect { event ->
-                when(event) {
+                when (event) {
                     is DownloadRequestEvent.Loading -> {
                         showProgressBar()
                     }
@@ -95,15 +123,19 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
 
         lifecycleScope.launchWhenStarted {
             viewModel.userStoriesEvent.collect { event ->
-                when(event) {
+                when (event) {
                     is InstagramUserStoriesEvent.Success -> {
-                        val adapter = StoryItemsAdapter(applicationContext , event.data , "Instagram" , null)
+                        hideLoadingStoriesDialog()
+                        val adapter =
+                            StoryItemsAdapter(applicationContext, event.data, "Instagram", null)
+                        binding.storiesItemsRecyclerView.adapter = adapter
                     }
                     is InstagramUserStoriesEvent.Failure -> {
+                        hideLoadingStoriesDialog()
                         applicationContext.showShortToast(event.errorText)
                     }
                     is InstagramUserStoriesEvent.Loading -> {
-
+                        showLoadingStoriesDialog()
                     }
                     else -> Unit
                 }
@@ -127,26 +159,23 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
         binding.switchFromPrivateAccount.setOnClickListener {
             if (!binding.switchFromPrivateAccount.isChecked) {
                 if (isInstaLoggedIn) {
-                    TODO()
+                    LogOutDialogFragment().apply {
+                        initDialog(
+                            applicationContext.resources.getString(R.string.confirm_log_out_message_insta),
+                            logOutListener = {
+                                viewModel.logOut()
+                            },
+                            cancelListener = {
+                                binding.switchFromPrivateAccount.isChecked = true
+                            }
+                        )
+                    }.show(supportFragmentManager, LOG_OUT_DIALOG_TAG)
                 }
             } else {
                 Intent(applicationContext, LoginActivity::class.java).also {
                     resultLauncher.launch(it)
                 }
             }
-        }
-
-        binding.switchFromPrivateAccount.isChecked = isInstaLoggedIn
-
-        if (!isInstaLoggedIn) {
-
-            binding.storiesRecyclerView.visibility = View.GONE
-            binding.storiesItemsRecyclerView.visibility = View.GONE
-
-        } else {
-
-            viewModel.getUsers()
-
         }
 
         binding.imageBack.setOnClickListener {
@@ -162,30 +191,26 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
         }
 
         binding.buttonDownload.setOnClickListener {
-            if (NetworkState.isNetworkAvailable()) {
-                if (binding.inputLink.text.toString().contains("instagram")) {
-                    if (Build.VERSION.SDK_INT >= 29) {
+            if (binding.inputLink.text.toString().contains("instagram")) {
+                if (Build.VERSION.SDK_INT >= 29) {
+                    setupListeners()
+                } else {
+                    if (Utils.hasWritePermission(this)) {
                         setupListeners()
                     } else {
-                        if (Utils.hasWritePermission(this)) {
-                            setupListeners()
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                                this,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            )
+                        ) {
+                            binding.root.showSettingsSnackbar(this)
                         } else {
-                            if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                                    this,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                )
-                            ) {
-                                binding.root.showSettingsSnackbar(this)
-                            } else {
-                                binding.root.showRequestPermissionSnackbar(this)
-                            }
+                            binding.root.showRequestPermissionSnackbar(this)
                         }
                     }
-                } else {
-                    applicationContext.showShortToast("Enter valid link")
                 }
             } else {
-                applicationContext.showShortToast("No Internet connection available")
+                applicationContext.showShortToast("Enter valid link")
             }
         }
     }
@@ -206,6 +231,7 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.logIn()
                 viewModel.getUsers()
             }
         }
@@ -221,6 +247,7 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
                 binding.inputLink.setText(it)
             }
         }
+        binding.switchFromPrivateAccount.isChecked = viewModel.isLoggedIn()
     }
 
     override fun onBackPressed() {
@@ -230,6 +257,26 @@ class InstagramActivity : AppCompatActivity(), InstagramUserSelectedListener {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun hideLoadingStoriesDialog() {
+        binding.loadingStoriesDataProgressBar.visibility = View.GONE
+        binding.storiesItemsRecyclerView.visibility = View.VISIBLE
+    }
+
+    private fun showLoadingStoriesDialog() {
+        binding.loadingStoriesDataProgressBar.visibility = View.VISIBLE
+        binding.storiesItemsRecyclerView.visibility = View.GONE
+    }
+
+    private fun showLoadingUsersDialog() {
+        binding.loadingStoriesProgressBar.visibility = View.VISIBLE
+        binding.storiesRecyclerView.visibility = View.GONE
+    }
+
+    private fun hideLoadingUsersDialog() {
+        binding.loadingStoriesProgressBar.visibility = View.GONE
+        binding.storiesRecyclerView.visibility = View.VISIBLE
     }
 
     override fun onInstagramUserClicked(position: Int, trayModel: TrayModel) {

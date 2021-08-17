@@ -13,6 +13,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.util.MimeTypes
 import com.mystikcoder.statussaver.R
+import timber.log.Timber
 
 class VideoPlayActivity : AppCompatActivity() {
 
@@ -67,6 +68,8 @@ class VideoPlayActivity : AppCompatActivity() {
             exoPlayer = SimpleExoPlayer.Builder(this).setTrackSelector(trackSelector).build()
 
             playerView.player = exoPlayer
+
+            Timber.e(intent.getStringExtra("videoUri"))
 
             val mediaItem = MediaItem.Builder()
                 .setUri(Uri.parse(intent.getStringExtra("videoUri")))

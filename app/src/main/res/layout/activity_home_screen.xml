@@ -29,8 +29,8 @@
                     android:text="@string/app_name"
                     android:textColor="@color/blue_grey"
                     android:textSize="@dimen/_18ssp"
-                    app:layout_constraintStart_toStartOf="@id/layoutHeader"
                     app:layout_constraintEnd_toEndOf="@id/layoutHeader"
+                    app:layout_constraintStart_toStartOf="@id/layoutHeader"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,37 +131,37 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:orientation="vertical"
-                        app:constraint_referenced_ids="layoutFacebook, layoutJosh, layoutLikee, layoutTakaTak"
+                        app:constraint_referenced_ids="layoutJosh, layoutLikee, layoutTakaTak, layoutChingari"
                         app:layout_constraintEnd_toStartOf="@+id/flow2"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <LinearLayout
-                        android:id="@+id/layoutFacebook"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                    <!--                    <LinearLayout-->
+                    <!--                        android:id="@+id/layoutFacebook"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:orientation="vertical"-->
+                    <!--                        tools:ignore="UseCompoundDrawables">-->
 
-                        <ImageView
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_8sdp"
-                            android:contentDescription="@string/app_name"
-                            android:padding="@dimen/_4sdp"
-                            android:src="@drawable/ic_facebook"
-                            app:tint="@color/blue" />
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="@dimen/_40sdp"-->
+                    <!--                            android:layout_height="@dimen/_40sdp"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:layout_marginTop="@dimen/_8sdp"-->
+                    <!--                            android:contentDescription="@string/app_name"-->
+                    <!--                            android:padding="@dimen/_4sdp"-->
+                    <!--                            android:src="@drawable/ic_facebook"-->
+                    <!--                            app:tint="@color/blue" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/facebook"
-                            android:textColor="@color/backgroundColor"
-                            android:textSize="@dimen/_12ssp" />
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_gravity="center"-->
+                    <!--                            android:text="@string/facebook"-->
+                    <!--                            android:textColor="@color/backgroundColor"-->
+                    <!--                            android:textSize="@dimen/_12ssp" />-->
 
-                    </LinearLayout>
+                    <!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:id="@+id/layoutInstagram"
@@ -314,7 +314,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:orientation="vertical"
-                        app:constraint_referenced_ids="layoutTwitter, layoutShareChat, layoutMitron, layoutChingari"
+                        app:constraint_referenced_ids="layoutTwitter, layoutShareChat, layoutMitron"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/flow2" />
 
@@ -422,6 +422,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/chingari"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:textAlignment="center"
                             android:textColor="@color/backgroundColor"
                             android:textSize="@dimen/_12ssp" />
@@ -449,7 +450,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="@dimen/_8sdp"
                             android:text="@string/mxtakatak"
                             android:textColor="@color/backgroundColor"
                             android:textSize="@dimen/_12ssp" />
@@ -506,8 +506,8 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:contentDescription="@string/saved"
-                            android:src="@drawable/ic_download"
                             android:padding="@dimen/_4sdp"
+                            android:src="@drawable/ic_download"
                             app:tint="@color/blue" />
 
                         <TextView
@@ -587,9 +587,9 @@
                         <ImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             android:contentDescription="@string/saved"
                             android:padding="@dimen/_4sdp"
-                            android:layout_marginStart="@dimen/_3sdp"
                             android:src="@drawable/ic_privacy_policy"
                             app:tint="@color/backgroundColor" />
 
@@ -617,28 +617,28 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bottom_sheet_bg"
             android:orientation="horizontal"
-            android:visibility="gone"
             android:padding="@dimen/_10sdp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/textDownloadNotification"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/automatic_download_is_stopped"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_light_italic"
+                android:text="@string/automatic_download_is_stopped"
                 android:textAlignment="textStart"
                 android:textColor="@color/athens_gray"
-                android:textSize="@dimen/_12ssp"/>
+                android:textSize="@dimen/_12ssp" />
 
             <TextView
                 android:id="@+id/textEnable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="@string/enable"
                 android:fontFamily="@font/roboto_medium"
+                android:text="@string/enable"
                 android:textAlignment="center"
                 android:textColor="@color/iron"
                 android:textSize="@dimen/_10ssp" />

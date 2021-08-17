@@ -14,15 +14,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityLikeeBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
 import com.mystikcoder.statussaver.extensions.getClipboardText
 import com.mystikcoder.statussaver.extensions.showRequestPermissionSnackbar
 import com.mystikcoder.statussaver.extensions.showSettingsSnackbar
 import com.mystikcoder.statussaver.extensions.showShortToast
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.LikeeViewModel
 import com.mystikcoder.statussaver.presentation.utils.DialogUtil
 import com.mystikcoder.statussaver.presentation.utils.NetworkState
 import com.mystikcoder.statussaver.presentation.utils.Utils
-import com.mystikcoder.statussaver.presentation.viewmodel.LikeeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

@@ -14,19 +14,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityFacebookBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
-import com.mystikcoder.statussaver.domain.events.facebook.FacebookUserEvent
-import com.mystikcoder.statussaver.domain.events.facebook.FacebookUserStoriesEvent
 import com.mystikcoder.statussaver.domain.model.facebook.FacebookNode
 import com.mystikcoder.statussaver.extensions.getClipboardText
 import com.mystikcoder.statussaver.extensions.showRequestPermissionSnackbar
 import com.mystikcoder.statussaver.extensions.showSettingsSnackbar
 import com.mystikcoder.statussaver.extensions.showShortToast
 import com.mystikcoder.statussaver.listeners.FacebookUserSelectedListener
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.framework.events.facebook.FacebookUserEvent
+import com.mystikcoder.statussaver.presentation.framework.events.facebook.FacebookUserStoriesEvent
 import com.mystikcoder.statussaver.presentation.ui.adapters.StoryItemsAdapter
 import com.mystikcoder.statussaver.presentation.ui.adapters.UsersListAdapter
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.FacebookViewModel
 import com.mystikcoder.statussaver.presentation.utils.*
-import com.mystikcoder.statussaver.presentation.viewmodel.FacebookViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

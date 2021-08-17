@@ -18,11 +18,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityHomeScreenBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
 import com.mystikcoder.statussaver.extensions.*
-import com.mystikcoder.statussaver.presentation.services.ClipTextObserverService
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.ui.services.ClipTextObserverService
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.HomeViewModel
 import com.mystikcoder.statussaver.presentation.utils.*
-import com.mystikcoder.statussaver.presentation.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.util.regex.Matcher
@@ -129,7 +129,7 @@ class HomeActivity : AppCompatActivity() {
                 ).also {
                     startActivity(it)
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 applicationContext.showShortToast("App not Found")
             }
         }
@@ -143,14 +143,15 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        binding.layoutFacebook.setOnClickListener {
-            Intent(
-                applicationContext,
-                FacebookActivity::class.java
-            ).also {
-                startActivity(it)
-            }
-        }
+//        binding.layoutFacebook.setOnClickListener {
+//            Intent(
+//                applicationContext,
+//                FacebookActivity::class.java
+//            ).also {
+//                startActivity(it)
+//            }
+//        }
+
         binding.layoutInstagram.setOnClickListener {
             Intent(
                 applicationContext,
@@ -159,6 +160,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutTwitter.setOnClickListener {
             Intent(
                 applicationContext,
@@ -167,6 +169,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutTikTok.setOnClickListener {
             Intent(
                 applicationContext,
@@ -175,6 +178,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutLikee.setOnClickListener {
             Intent(
                 applicationContext,
@@ -183,11 +187,16 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutDownloads.setOnClickListener {
-            Intent(this, GalleryActivity::class.java).also {
+            Intent(
+                applicationContext,
+                GalleryActivity::class.java
+            ).also {
                 startActivity(it)
             }
         }
+
         binding.layoutRoposso.setOnClickListener {
             Intent(
                 applicationContext,
@@ -196,6 +205,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutShareChat.setOnClickListener {
             Intent(
                 applicationContext,
@@ -204,6 +214,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutJosh.setOnClickListener {
             Intent(
                 applicationContext,
@@ -212,6 +223,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutTakaTak.setOnClickListener {
             Intent(
                 applicationContext,
@@ -220,6 +232,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutMitron.setOnClickListener {
             Intent(
                 applicationContext,
@@ -228,6 +241,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutChingari.setOnClickListener {
             Intent(
                 applicationContext,
@@ -236,6 +250,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.layoutMoj.setOnClickListener {
             Intent(
                 applicationContext,
@@ -244,6 +259,7 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
         binding.buttonDownload.setOnClickListener {
 
             if (NetworkState.isNetworkAvailable()) {
@@ -310,7 +326,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         if (binding.inputLink.text.isEmpty()) {
-            applicationContext.showShortToast( "Enter Link")
+            applicationContext.showShortToast("Enter Link")
         } else if (!WEB_URL.matcher(extractLinks(binding.inputLink.text.toString()))
                 .matches()
         ) {

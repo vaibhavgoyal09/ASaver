@@ -7,8 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import android.util.Patterns
-import android.view.Gravity
-import android.widget.Toast
 import java.io.File
 import java.util.regex.Matcher
 

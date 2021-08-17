@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.mystikcoder.statussaver.domain.model.** { *; }
--keep class com.mystikcoder.statussaver.presentation.services.ClipTextObserverService { *; }
+-keep class com.mystikcoder.statussaver.presentation.ui.services.ClipTextObserverService { *; }
 -keepattributes JavascriptInterface
 
 -assumenosideeffects class android.util.Log {

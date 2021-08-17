@@ -13,12 +13,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityTwitterBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
 import com.mystikcoder.statussaver.extensions.*
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.TwitterViewModel
 import com.mystikcoder.statussaver.presentation.utils.DialogUtil
 import com.mystikcoder.statussaver.presentation.utils.NetworkState
 import com.mystikcoder.statussaver.presentation.utils.Utils
-import com.mystikcoder.statussaver.presentation.viewmodel.TwitterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

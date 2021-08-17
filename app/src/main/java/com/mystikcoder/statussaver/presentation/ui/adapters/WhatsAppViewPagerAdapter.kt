@@ -12,9 +12,9 @@ class WhatsAppViewPagerAdapter(fragmentActivity: FragmentActivity) :
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
-        return if (position == 0){
+        return if (position == 0) {
             WhatsAppImageFragment()
-        }else{
+        } else {
             WhatsAppVideoFragment()
         }
     }

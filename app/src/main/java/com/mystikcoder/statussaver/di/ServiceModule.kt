@@ -16,7 +16,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 
 @Module
 @InstallIn(ServiceComponent::class)
-class ServiceModule {
+object ServiceModule {
 
     @SuppressLint("InlinedApi")
     @ServiceScoped
@@ -36,4 +36,5 @@ class ServiceModule {
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_LOW)
+
 }

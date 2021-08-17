@@ -18,14 +18,16 @@ import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityGalleryBinding
 import com.mystikcoder.statussaver.presentation.ui.adapters.FileListAdapter
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.GalleryViewModel
 import com.mystikcoder.statussaver.presentation.utils.Utils
-import com.mystikcoder.statussaver.presentation.viewmodel.SavedFilesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class GalleryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGalleryBinding
-    private val viewModel: SavedFilesViewModel by viewModels()
+    private val viewModel: GalleryViewModel by viewModels()
     private lateinit var apps: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +37,6 @@ class GalleryActivity : AppCompatActivity() {
         apps = arrayOf(
             "All",
             "Instagram",
-            "Facebook",
             "WhatsApp",
             "Moj",
             "Mitron",
@@ -53,14 +54,69 @@ class GalleryActivity : AppCompatActivity() {
         binding.appsSpinner.onItemSelectedListener = null
         checkPermissions()
 
+        viewModel.hasPermissions.observe(this) {
+
+            if (it) {
+
+                binding.imageNoFileFound?.visibility = View.GONE
+                binding.buttonAcceptPermissions?.visibility = View.GONE
+                binding.textView?.visibility = View.GONE
+                binding.savedItemsRecyclerView.visibility = View.VISIBLE
+                binding.appsSpinner.visibility = View.VISIBLE
+
+                binding.appsSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            lifecycleScope.launch {
+                                viewModel.getSavedFiles(apps[position])
+                            }
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            binding.appsSpinner.setSelection(0)
+                            lifecycleScope.launch {
+                                viewModel.getSavedFiles(apps[0])
+                            }
+                        }
+                    }
+
+                val adapter =
+                    ArrayAdapter(
+                        this,
+                        android.R.layout.simple_list_item_activated_1,
+                        apps
+                    ).also { arrayAdapter ->
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    }
+                binding.appsSpinner.adapter = adapter
+
+            } else {
+
+                binding.savedItemsRecyclerView.visibility = View.GONE
+                binding.appsSpinner.visibility = View.GONE
+                binding.imageNoFileFound?.visibility = View.VISIBLE
+                binding.buttonAcceptPermissions?.visibility = View.VISIBLE
+                binding.textView?.visibility = View.VISIBLE
+
+            }
+        }
+
         viewModel.savedFiles.observe(this) {
             binding.savedItemsRecyclerView.adapter = FileListAdapter(this, it)
             binding.textNoData?.visibility =
                 if (it.toString().isEmpty()) View.VISIBLE else View.GONE
         }
+
         binding.imageBack.setOnClickListener {
             onBackPressed()
         }
+
         binding.buttonAcceptPermissions?.setOnClickListener {
             if (!ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
@@ -83,88 +139,18 @@ class GalleryActivity : AppCompatActivity() {
 
     private fun checkPermissions() {
         if (!Utils.hasReadPermission(this)) {
-            binding.savedItemsRecyclerView.visibility = View.GONE
-            binding.appsSpinner.visibility = View.GONE
-            binding.imageNoFileFound?.visibility = View.VISIBLE
-            binding.buttonAcceptPermissions?.visibility = View.VISIBLE
-            binding.textView?.visibility = View.VISIBLE
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 101
             )
-        } else {
-            binding.imageNoFileFound?.visibility = View.GONE
-            binding.buttonAcceptPermissions?.visibility = View.GONE
-            binding.textView?.visibility = View.GONE
-            binding.savedItemsRecyclerView.visibility = View.VISIBLE
-            binding.appsSpinner.visibility = View.VISIBLE
-
-            binding.appsSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        lifecycleScope.launch {
-                            viewModel.getSavedFiles(this@GalleryActivity, apps[position])
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        binding.appsSpinner.setSelection(0)
-                        lifecycleScope.launch {
-                            viewModel.getSavedFiles(this@GalleryActivity, apps[0])
-                        }
-                    }
-                }
-
-            val adapter =
-                ArrayAdapter(this, R.layout.spinner_list_item, apps)
-            binding.appsSpinner.adapter = adapter
         }
     }
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (Utils.hasReadPermission(this)) {
-                binding.appsSpinner.visibility = View.VISIBLE
-                binding.appsSpinner.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            lifecycleScope.launch {
-                                viewModel.getSavedFiles(this@GalleryActivity, apps[position])
-                            }
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            binding.appsSpinner.setSelection(0)
-                            lifecycleScope.launch {
-                                viewModel.getSavedFiles(this@GalleryActivity, apps[0])
-                            }
-                        }
-                    }
-
-                val adapter =
-                    ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
-                        it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    }
-                binding.appsSpinner.adapter = adapter
-            } else {
-                binding.imageNoFileFound?.visibility = View.VISIBLE
-                binding.buttonAcceptPermissions?.visibility = View.VISIBLE
-                binding.textView?.visibility = View.VISIBLE
-                binding.savedItemsRecyclerView.visibility = View.GONE
-                binding.appsSpinner.visibility = View.GONE
+                viewModel.permissionsGranted()
             }
         }
 
@@ -174,46 +160,8 @@ class GalleryActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 101 && grantResults.isEmpty()) {
-            binding.imageNoFileFound?.visibility = View.VISIBLE
-            binding.buttonAcceptPermissions?.visibility = View.VISIBLE
-            binding.textView?.visibility = View.VISIBLE
-            binding.savedItemsRecyclerView.visibility = View.GONE
-            binding.appsSpinner.visibility = View.GONE
-        } else if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            binding.imageNoFileFound?.visibility = View.GONE
-            binding.buttonAcceptPermissions?.visibility = View.GONE
-            binding.textView?.visibility = View.GONE
-            binding.savedItemsRecyclerView.visibility = View.VISIBLE
-            binding.appsSpinner.visibility = View.VISIBLE
-
-            binding.appsSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        lifecycleScope.launch {
-                            viewModel.getSavedFiles(this@GalleryActivity, apps[position])
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        binding.appsSpinner.setSelection(0)
-                        lifecycleScope.launch {
-                            viewModel.getSavedFiles(this@GalleryActivity, apps[0])
-                        }
-                    }
-                }
-
-            val adapter =
-                ArrayAdapter(this, android.R.layout.simple_list_item_activated_1, apps).also {
-                    it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                }
-            binding.appsSpinner.adapter = adapter
+        if (requestCode == 101 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            viewModel.permissionsGranted()
         }
     }
 }

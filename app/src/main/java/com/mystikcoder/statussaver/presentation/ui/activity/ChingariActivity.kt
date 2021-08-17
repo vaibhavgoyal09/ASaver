@@ -13,11 +13,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityChingariBinding
-import com.mystikcoder.statussaver.domain.events.common.DownloadRequestEvent
 import com.mystikcoder.statussaver.extensions.*
+import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
+import com.mystikcoder.statussaver.presentation.ui.viewmodel.ChingariViewModel
 import com.mystikcoder.statussaver.presentation.utils.DialogUtil
 import com.mystikcoder.statussaver.presentation.utils.Utils
-import com.mystikcoder.statussaver.presentation.viewmodel.ChingariViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 

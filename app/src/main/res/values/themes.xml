@@ -4,15 +4,14 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/limed_spruce</item>
         <item name="colorPrimaryVariant">@color/river_bed</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/athens_gray</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/cadet_blue</item>
+        <item name="colorSecondaryVariant">@color/iron</item>
+        <item name="colorOnSecondary">@color/athens_gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
     </style>
 
     <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
@@ -20,11 +19,25 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="Theme.FullScreen" parent="Theme.MaterialComponents">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:background">@color/limed_spruce</item>
+        <item name="colorOnBackground">@color/athens_gray</item>
+        <item name="titleTextColor">@color/athens_gray</item>
+    </style>
 
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue_grey</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/blue_grey</item>
+    </style>
+
+    <style name="Theme.FullScreen" parent="Theme.MaterialComponents">
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-
     </style>
 
     <style name="AlertDialogAnimation">
@@ -33,11 +46,9 @@
     </style>
 
     <style name="SplashImage" parent="Theme.MaterialComponents.NoActionBar">
-
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/limed_spruce</item>
         <item name="android:windowBackground">@drawable/splash_image</item>
-
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
