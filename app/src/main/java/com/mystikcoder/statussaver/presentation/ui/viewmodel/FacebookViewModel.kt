@@ -62,7 +62,7 @@ class FacebookViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_FACEBOOK, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_FACEBOOK, app, downloadUrl.getFileName(
                         FACEBOOK
                     )
                 )

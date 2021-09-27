@@ -54,7 +54,7 @@ class RoposeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_ROPOSSO, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_ROPOSSO, app, downloadUrl.getFileName(
                         ROPOSO
                     )
                 )

@@ -14,14 +14,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.mystikcoder.statussaver.R
 import com.mystikcoder.statussaver.databinding.ActivityGalleryBinding
 import com.mystikcoder.statussaver.presentation.ui.adapters.FileListAdapter
 import com.mystikcoder.statussaver.presentation.ui.viewmodel.GalleryViewModel
 import com.mystikcoder.statussaver.presentation.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class GalleryActivity : AppCompatActivity() {
@@ -37,7 +35,6 @@ class GalleryActivity : AppCompatActivity() {
         apps = arrayOf(
             "All",
             "Instagram",
-            "WhatsApp",
             "Moj",
             "Mitron",
             "MxTakaTak",
@@ -49,7 +46,7 @@ class GalleryActivity : AppCompatActivity() {
             "ShareChat",
             "TikTok"
         )
-        apps.sort()
+        apps.sort() // Sort array alphabetically
 
         binding.appsSpinner.onItemSelectedListener = null
         checkPermissions()
@@ -73,27 +70,21 @@ class GalleryActivity : AppCompatActivity() {
                             position: Int,
                             id: Long
                         ) {
-                            lifecycleScope.launch {
-                                viewModel.getSavedFiles(apps[position])
-                            }
+                            viewModel.getSavedFiles(apps[position])
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                             binding.appsSpinner.setSelection(0)
-                            lifecycleScope.launch {
-                                viewModel.getSavedFiles(apps[0])
-                            }
+                            viewModel.getSavedFiles(apps[0])
                         }
                     }
 
                 val adapter =
                     ArrayAdapter(
                         this,
-                        android.R.layout.simple_list_item_activated_1,
+                        R.layout.spinner_list_item,
                         apps
-                    ).also { arrayAdapter ->
-                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    }
+                    )
                 binding.appsSpinner.adapter = adapter
 
             } else {

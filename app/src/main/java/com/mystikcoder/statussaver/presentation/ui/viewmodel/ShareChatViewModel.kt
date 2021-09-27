@@ -54,7 +54,7 @@ class ShareChatViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_SHARECHAT, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_SHARECHAT, app, downloadUrl.getFileName(
                         SHARE_CHAT
                     )
                 )

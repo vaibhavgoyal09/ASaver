@@ -54,7 +54,7 @@ class MojViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_MOJ, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_MOJ, app, downloadUrl.getFileName(
                         MOJ
                     )
                 )

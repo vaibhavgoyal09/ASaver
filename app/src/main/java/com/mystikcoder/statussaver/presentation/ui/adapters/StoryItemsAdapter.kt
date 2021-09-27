@@ -98,14 +98,14 @@ class StoryItemsAdapter(
                         if (story.mediaType == 2) {
                             Utils.startDownload(
                                 story.videoVersions[0].url,
-                                Utils.ROOT_DIRECTORY_INSTAGRAM,
+                                Utils.DIRECTORY_INSTAGRAM,
                                 context,
                                 "story_ ${story.id}.mp4"
                             )
                         } else {
                             Utils.startDownload(
                                 story.imageVersions2.candidates[0].url,
-                                Utils.ROOT_DIRECTORY_INSTAGRAM,
+                                Utils.DIRECTORY_INSTAGRAM,
                                 context,
                                 "story_ ${story.id}.png"
                             )
@@ -175,14 +175,14 @@ class StoryItemsAdapter(
 
                             Utils.startDownload(
                                 nodeModel.nodeData.attachmentsList[0].mediaData.playableUrlQualityHd,
-                                Utils.ROOT_DIRECTORY_INSTAGRAM,
+                                Utils.DIRECTORY_INSTAGRAM,
                                 context,
                                 "FbStory" + System.currentTimeMillis().toString() + ".mp4"
                             )
                         } else {
                             Utils.startDownload(
                                 nodeModel.nodeData.attachmentsList[0].mediaData.previewImage.get("uri").asString,
-                                Utils.ROOT_DIRECTORY_INSTAGRAM,
+                                Utils.DIRECTORY_INSTAGRAM,
                                 context,
                                 "FbStory" + System.currentTimeMillis().toString() + ".png"
                             )

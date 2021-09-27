@@ -26,6 +26,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
+            android:backgroundTint="@color/athens_gray"
+            tools:listitem="@layout/spinner_list_item"
+            android:dropDownSelector="@color/backgroundColor"
             app:layout_constraintBottom_toBottomOf="@id/imageBack"
             app:layout_constraintStart_toEndOf="@id/imageBack"
             app:layout_constraintTop_toTopOf="@id/imageBack" />

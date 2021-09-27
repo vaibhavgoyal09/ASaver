@@ -54,7 +54,7 @@ class LikeeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_LIKEE, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_LIKEE, app, downloadUrl.getFileName(
                         LIKEE
                     )
                 )

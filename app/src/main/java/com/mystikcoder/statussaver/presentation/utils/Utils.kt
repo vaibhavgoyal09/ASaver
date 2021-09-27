@@ -10,105 +10,96 @@ import android.util.Patterns
 import java.io.File
 import java.util.regex.Matcher
 
-@Suppress("DEPRECATION")
+@Suppress("Deprecation")
 object Utils {
 
-    const val ROOT_DIRECTORY_FACEBOOK = "/Asaver/Facebook/"
-    const val ROOT_DIRECTORY_INSTAGRAM = "/Asaver/Instagram/"
-    const val ROOT_DIRECTORY_LIKEE = "/Asaver/Likee/"
-    const val ROOT_DIRECTORY_ROPOSSO = "/Asaver/Roposso/"
-    const val ROOT_DIRECTORY_SHARECHAT = "/Asaver/ShareChat/"
-    const val ROOT_DIRECTORY_TWITTER = "/Asaver/Twitter/"
-    const val ROOT_DIRECTORY_MOJ = "/Asaver/Moj/"
-    const val ROOT_DIRECTORY_CHINGARI = "/Asaver/Chingari/"
-    const val ROOT_DIRECTORY_MX_TAKA_TAK = "/Asaver/MxTakaTak/"
-    const val ROOT_DIRECTORY_MITRON = "/Asaver/Mitron/"
-    const val ROOT_DIRECTORY_JOSH = "/Asaver/Josh/"
-    const val ROOT_DIRECTORY_TIK_TOK = "/Asaver/TikTok"
+    const val DIRECTORY_FACEBOOK = "/Asaver/Facebook/"
+    const val DIRECTORY_INSTAGRAM = "/Asaver/Instagram/"
+    const val DIRECTORY_LIKEE = "/Asaver/Likee/"
+    const val DIRECTORY_ROPOSSO = "/Asaver/Roposso/"
+    const val DIRECTORY_SHARECHAT = "/Asaver/ShareChat/"
+    const val DIRECTORY_TWITTER = "/Asaver/Twitter/"
+    const val DIRECTORY_MOJ = "/Asaver/Moj/"
+    const val DIRECTORY_CHINGARI = "/Asaver/Chingari/"
+    const val DIRECTORY_MX_TAKA_TAK = "/Asaver/MxTakaTak/"
+    const val DIRECTORY_MITRON = "/Asaver/Mitron/"
+    const val DIRECTORY_JOSH = "/Asaver/Josh/"
+    const val DIRECTORY_TIK_TOK = "/Asaver/TikTok"
+
     const val MX_TAKA_TAK_URL = "http://androidqueue.com/tiktokapi/api.php"
 
-    val PATH_ROOT_DIRECTORY_APP =
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver"
+    val DIRECTORY_ASAVER =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver")
 
-    val PATH_ROOT_DIRECTORY_FACEBOOK: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Facebook")
+    val DIRECTORY_INSTAGRAM_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_INSTAGRAM)
 
-    val PATH_ROOT_DIRECTORY_INSTAGRAM: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Instagram")
+    val DIRECTORY_TWITTER_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_TWITTER)
 
-    val PATH_ROOT_DIRECTORY_TWITTER: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Twitter")
+    val DIRECTORY_TIK_TOK_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_TIK_TOK)
 
-    val PATH_ROOT_DIRECTORY_LIKEE: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Likee")
+    val DIRECTORY_MOJ_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_MOJ)
 
-    val PATH_ROOT_DIRECTORY_WHATSAPP: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/WhatsApp")
+    val DIRECTORY_MX_TAKA_TAK_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_MX_TAKA_TAK)
 
-    val PATH_ROOT_DIRECTORY_JOSH: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Josh")
+    val DIRECTORY_CHINGARI_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_CHINGARI)
 
-    val PATH_ROOT_DIRECTORY_MITRON: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Mitron")
+    val DIRECTORY_MITRON_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_MITRON)
 
-    val PATH_ROOT_DIRECTORY_MOJ: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Moj")
+    val DIRECTORY_JOSH_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_JOSH)
 
-    val PATH_ROOT_DIRECTORY_ROPOSSO: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Roposo")
+    val DIRECTORY_LIKEE_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_LIKEE)
 
-    val PATH_ROOT_DIRECTORY_CHINGARI: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/Chingari")
+    val DIRECTORY_ROPOSSO_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_ROPOSSO)
 
-    val PATH_ROOT_DIRECTORY_SHARE_CHAT: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/ShareChat")
+    val DIRECTORY_SHARECHAT_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + DIRECTORY_SHARECHAT)
 
-    val PATH_ROOT_DIRECTORY_MX_TAKA_TAK: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/MxTakaTak")
-
-    val PATH_ROOT_DIRECTORY_TIK_TOK: File =
-        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/Asaver/TikTok")
+    val DIRECTORY_WHATSAPP_FILE =
+        File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/ASaver/WhatsApp")
 
     fun createFileFolder() {
-
-        if (!PATH_ROOT_DIRECTORY_FACEBOOK.exists()) {
-            PATH_ROOT_DIRECTORY_FACEBOOK.mkdirs()
+        if (!DIRECTORY_INSTAGRAM_FILE.exists()) {
+            DIRECTORY_INSTAGRAM_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_INSTAGRAM.exists()) {
-            PATH_ROOT_DIRECTORY_INSTAGRAM.mkdirs()
+        if (!DIRECTORY_CHINGARI_FILE.exists()) {
+            DIRECTORY_CHINGARI_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_LIKEE.exists()) {
-            PATH_ROOT_DIRECTORY_LIKEE.mkdirs()
+        if (!DIRECTORY_LIKEE_FILE.exists()) {
+            DIRECTORY_LIKEE_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_ROPOSSO.exists()) {
-            PATH_ROOT_DIRECTORY_ROPOSSO.mkdirs()
+        if (!DIRECTORY_MITRON_FILE.exists()) {
+            DIRECTORY_MITRON_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_SHARE_CHAT.exists()) {
-            PATH_ROOT_DIRECTORY_SHARE_CHAT.mkdirs()
+        if (!DIRECTORY_TWITTER_FILE.exists()) {
+            DIRECTORY_TWITTER_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_WHATSAPP.exists()) {
-            PATH_ROOT_DIRECTORY_WHATSAPP.mkdirs()
+        if (!DIRECTORY_TIK_TOK_FILE.exists()) {
+            DIRECTORY_TIK_TOK_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_TWITTER.exists()) {
-            PATH_ROOT_DIRECTORY_TWITTER.mkdirs()
+        if (!DIRECTORY_MOJ_FILE.exists()) {
+            DIRECTORY_MOJ_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_CHINGARI.exists()) {
-            PATH_ROOT_DIRECTORY_CHINGARI.mkdirs()
+        if (!DIRECTORY_MX_TAKA_TAK_FILE.exists()) {
+            DIRECTORY_MX_TAKA_TAK_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_MOJ.exists()) {
-            PATH_ROOT_DIRECTORY_MOJ.mkdirs()
+        if (!DIRECTORY_JOSH_FILE.exists()) {
+            DIRECTORY_JOSH_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_MX_TAKA_TAK.exists()) {
-            PATH_ROOT_DIRECTORY_MX_TAKA_TAK.mkdirs()
+        if (!DIRECTORY_ROPOSSO_FILE.exists()) {
+            DIRECTORY_ROPOSSO_FILE.mkdirs()
         }
-        if (!PATH_ROOT_DIRECTORY_JOSH.exists()) {
-            PATH_ROOT_DIRECTORY_JOSH.mkdirs()
-        }
-        if (!PATH_ROOT_DIRECTORY_MITRON.exists()) {
-            PATH_ROOT_DIRECTORY_MITRON.mkdirs()
-        }
-        if (!PATH_ROOT_DIRECTORY_TIK_TOK.exists()) {
-            PATH_ROOT_DIRECTORY_TIK_TOK.mkdirs()
+        if (!DIRECTORY_SHARECHAT_FILE.exists()) {
+            DIRECTORY_SHARECHAT_FILE.mkdirs()
         }
     }
 
@@ -131,16 +122,16 @@ object Utils {
         downloadPath: String,
         destinationPath: String,
         context: Context,
-        FileName: String
+        fileName: String
     ) {
         val uri = Uri.parse(downloadPath)
         DownloadManager.Request(uri).also {
             it.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
             it.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            it.setTitle(FileName + "")
+            it.setTitle(fileName + "")
             it.setDestinationInExternalPublicDir(
-                Environment.DIRECTORY_DOWNLOADS,
-                "$destinationPath$FileName"
+                Environment.DIRECTORY_DCIM,
+                "$destinationPath$fileName"
             )
         }.apply {
             (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(this)

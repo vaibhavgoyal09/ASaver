@@ -54,7 +54,7 @@ class ChingariViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_CHINGARI, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_CHINGARI, app, downloadUrl.getFileName(
                         CHINGARI
                     )
                 )

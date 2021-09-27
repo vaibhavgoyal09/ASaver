@@ -23,6 +23,11 @@
         android:theme="@style/Theme.StatusSaverUI"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <service
+            android:name=".presentation.ui.services.NotificationDownloadService"
+            android:enabled="false"
+            android:exported="false"></service>
+
         <activity
             android:name=".presentation.ui.activity.TikTokActivity"
             android:exported="false" />
@@ -120,6 +125,7 @@
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+
             <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"

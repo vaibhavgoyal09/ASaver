@@ -21,10 +21,12 @@ import com.mystikcoder.statussaver.databinding.ActivityHomeScreenBinding
 import com.mystikcoder.statussaver.extensions.*
 import com.mystikcoder.statussaver.presentation.framework.events.common.DownloadRequestEvent
 import com.mystikcoder.statussaver.presentation.ui.services.ClipTextObserverService
+import com.mystikcoder.statussaver.presentation.ui.services.NotificationDownloadService
 import com.mystikcoder.statussaver.presentation.ui.viewmodel.HomeViewModel
 import com.mystikcoder.statussaver.presentation.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 import java.util.regex.Matcher
 
 @AndroidEntryPoint
@@ -83,6 +85,8 @@ class HomeActivity : AppCompatActivity() {
         isFirstTimeClicked = true
 
         ClipTextObserverService.isServiceKilled.observe(this) { yes ->
+
+            Timber.e(if (yes) "killed" else "running")
 
             if (yes) {
                 binding.layoutMisc.visibility = View.VISIBLE
@@ -457,6 +461,15 @@ class HomeActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        if (Build.VERSION.SDK_INT < 29) {
+//            outState.putBoolean("wasServiceRunning" , ClipTextObserverService.isServiceKilled.value!!)
+//        }else{
+//            outState.putBoolean("wasServiceRunning" , NotificationDownloadService.isServiceKilled.value!!)
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()

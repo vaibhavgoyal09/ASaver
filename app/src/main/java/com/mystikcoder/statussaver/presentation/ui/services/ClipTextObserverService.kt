@@ -313,7 +313,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
             clipText.contains(MX_TAKA_TAK) -> {
                 val data =
                     Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                startMxTakaTakWorker(data.build(), Utils.ROOT_DIRECTORY_MX_TAKA_TAK)
+                startMxTakaTakWorker(data.build(), Utils.DIRECTORY_MX_TAKA_TAK)
             }
 
             clipText.contains(TWITTER) -> {
@@ -332,13 +332,13 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
             clipText.contains(MOJ) -> {
                 val data =
                     Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                startMxTakaTakWorker(data.build(), Utils.ROOT_DIRECTORY_MOJ)
+                startMxTakaTakWorker(data.build(), Utils.DIRECTORY_MOJ)
             }
 
             clipText.contains(TIKTOK) -> {
                 val data =
                     Data.Builder().putString(WORK_URL, extractLinks(clipText))
-                startMxTakaTakWorker(data.build(), Utils.ROOT_DIRECTORY_TIK_TOK)
+                startMxTakaTakWorker(data.build(), Utils.DIRECTORY_TIK_TOK)
             }
 
             else -> Unit
@@ -374,7 +374,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)!!
                         Utils.startDownload(
                             downloadUrl,
-                            Utils.ROOT_DIRECTORY_MITRON,
+                            Utils.DIRECTORY_MITRON,
                             this,
                             downloadUrl.getFileName(
                                 MITRON
@@ -412,7 +412,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)!!
                         Utils.startDownload(
                             downloadUrl,
-                            Utils.ROOT_DIRECTORY_CHINGARI,
+                            Utils.DIRECTORY_CHINGARI,
                             this,
                             downloadUrl.getFileName(
                                 CHINGARI
@@ -451,7 +451,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)!!
                         Utils.startDownload(
                             downloadUrl,
-                            Utils.ROOT_DIRECTORY_ROPOSSO,
+                            Utils.DIRECTORY_ROPOSSO,
                             this,
                             downloadUrl.getFileName(
                                 ROPOSO
@@ -489,7 +489,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)!!
                         Utils.startDownload(
                             downloadUrl,
-                            Utils.ROOT_DIRECTORY_LIKEE,
+                            Utils.DIRECTORY_LIKEE,
                             this,
                             downloadUrl.getFileName(
                                 LIKEE
@@ -526,7 +526,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)
                         Utils.startDownload(
                             downloadUrl!!,
-                            Utils.ROOT_DIRECTORY_TWITTER,
+                            Utils.DIRECTORY_TWITTER,
                             this,
                             downloadUrl.getFileName(TWITTER)
                         )
@@ -595,7 +595,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         val downloadUrl = workInfo.outputData.getString(WORKER_KEY_DOWNLOAD_URL)!!
                         Utils.startDownload(
                             downloadUrl,
-                            Utils.ROOT_DIRECTORY_SHARECHAT,
+                            Utils.DIRECTORY_SHARECHAT,
                             this,
                             downloadUrl.getFileName(
                                 SHARE_CHAT
@@ -673,7 +673,7 @@ class ClipTextObserverService : LifecycleService(), ClipboardManager.OnPrimaryCl
                         for (downloadUrl in downloadUrls) {
                             Utils.startDownload(
                                 downloadUrl,
-                                Utils.ROOT_DIRECTORY_INSTAGRAM,
+                                Utils.DIRECTORY_INSTAGRAM,
                                 this,
                                 downloadUrl.getFileName(INSTAGRAM)
                             )

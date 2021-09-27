@@ -54,7 +54,7 @@ class MxTakaTakViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_MX_TAKA_TAK, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_MX_TAKA_TAK, app, downloadUrl.getFileName(
                         MX_TAKA_TAK
                     )
                 )

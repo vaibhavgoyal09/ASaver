@@ -25,10 +25,9 @@ import java.io.IOException
 class WhatsAppItemsAdapter(
     val context: Context,
     private val files: ArrayList<WhatsAppModel>?
-) :
-    RecyclerView.Adapter<WhatsAppItemsAdapter.ItemsViewHolder>() {
+) : RecyclerView.Adapter<WhatsAppItemsAdapter.ItemsViewHolder>() {
 
-    val savedFilePath: String = Utils.PATH_ROOT_DIRECTORY_WHATSAPP.toString() + "/"
+    val savedFilePath: String = Utils.DIRECTORY_WHATSAPP_FILE.toString() + "/"
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

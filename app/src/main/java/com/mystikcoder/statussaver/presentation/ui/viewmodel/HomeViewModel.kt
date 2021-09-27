@@ -90,7 +90,7 @@ class HomeViewModel @Inject constructor(
 
                 for (downloadUrl in downloadUrls) {
                     Utils.startDownload(
-                        downloadUrl, Utils.ROOT_DIRECTORY_INSTAGRAM, app, downloadUrl.getFileName(
+                        downloadUrl, Utils.DIRECTORY_INSTAGRAM, app, downloadUrl.getFileName(
                             INSTAGRAM
                         )
                     )
@@ -114,7 +114,7 @@ class HomeViewModel @Inject constructor(
 
                 Utils.startDownload(
                     response.downloadLink!!,
-                    Utils.ROOT_DIRECTORY_MOJ,
+                    Utils.DIRECTORY_MOJ,
                     app,
                     response.downloadLink!!.getFileName(
                         MOJ
@@ -139,7 +139,7 @@ class HomeViewModel @Inject constructor(
             if (response.isSuccess) {
                 val downloadLink = response.downloadLink!!
                 Utils.startDownload(
-                    downloadLink, Utils.ROOT_DIRECTORY_MITRON, app, downloadLink.getFileName(
+                    downloadLink, Utils.DIRECTORY_MITRON, app, downloadLink.getFileName(
                         MITRON
                     )
                 )
@@ -161,7 +161,7 @@ class HomeViewModel @Inject constructor(
             if (response.isSuccess) {
                 val downloadUrl = response.downloadLink!!
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_TIK_TOK, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_TIK_TOK, app, downloadUrl.getFileName(
                         TIKTOK
                     )
                 )
@@ -184,7 +184,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_CHINGARI, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_CHINGARI, app, downloadUrl.getFileName(
                         CHINGARI
                     )
                 )
@@ -207,7 +207,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_ROPOSSO, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_ROPOSSO, app, downloadUrl.getFileName(
                         ROPOSO
                     )
                 )
@@ -231,7 +231,7 @@ class HomeViewModel @Inject constructor(
 
                 Utils.startDownload(
                     downloadUrl,
-                    Utils.ROOT_DIRECTORY_LIKEE,
+                    Utils.DIRECTORY_LIKEE,
                     app,
                     downloadUrl.getFileName(LIKEE)
                 )
@@ -255,7 +255,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_JOSH, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_JOSH, app, downloadUrl.getFileName(
                         JOSH
                     )
                 )
@@ -279,7 +279,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_TWITTER, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_TWITTER, app, downloadUrl.getFileName(
                         TWITTER
                     )
                 )
@@ -303,7 +303,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_SHARECHAT, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_SHARECHAT, app, downloadUrl.getFileName(
                         SHARE_CHAT
                     )
                 )
@@ -327,7 +327,7 @@ class HomeViewModel @Inject constructor(
                 val downloadUrl = response.downloadLink!!
 
                 Utils.startDownload(
-                    downloadUrl, Utils.ROOT_DIRECTORY_MX_TAKA_TAK, app, downloadUrl.getFileName(
+                    downloadUrl, Utils.DIRECTORY_MX_TAKA_TAK, app, downloadUrl.getFileName(
                         MX_TAKA_TAK
                     )
                 )

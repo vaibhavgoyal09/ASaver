@@ -87,7 +87,7 @@ class InstagramViewModel @Inject constructor(
 
                 for (downloadUrl in downloadUrls) {
                     Utils.startDownload(
-                        downloadUrl, Utils.ROOT_DIRECTORY_INSTAGRAM, app, downloadUrl.getFileName(
+                        downloadUrl, Utils.DIRECTORY_INSTAGRAM, app, downloadUrl.getFileName(
                             INSTAGRAM
                         )
                     )
