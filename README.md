@@ -11,7 +11,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/vaibhav158/ASaver?style=social)](https://github.com/vaibhav158/ASaver/network/members)
 [![GitHub watchers](https://img.shields.io/github/watchers/vaibhav158/ASaver?style=social)](https://github.com/vaibhav158/ASaver/watchers)
 
-_**Asaver Android application**_ is built with _Modern Android application development_ tools or libraries. 
+_**ASaver Android application**_ is built with _Modern Android application development_ tools or libraries. 
 Aim of this project is to showcase Good practice implementation of Android application development with proper architecture design. 
 _Dedicated to all Android Developers with_ ❤️.
 
@@ -72,6 +72,10 @@ You will require Android Studio 4.0 or newer to be able to build the app. Downlo
 This app uses [_**MVVM (Model View View-Model)**_](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.
 
 ![MVVM Architecture](art/MVVM_architecture.png)
+
+## Want to Contribute 🙋‍♂️?
+
+Awesome! If you want to contribute to this project, you're always welcome! See [Contributing Guidelines](CONTRIBUTING.md).
 
 ## Want to discuss? 💬
 
