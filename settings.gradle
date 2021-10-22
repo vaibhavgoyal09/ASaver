@@ -1,2 +1,2 @@
-rootProject.name = "StatusSaverUI"
+rootProject.name = "ASaver"
 include ':app'
