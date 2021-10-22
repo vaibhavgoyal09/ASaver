@@ -4,13 +4,18 @@
 
 # Asaver 📱
 
-![Build (Android)](https://github.com/PatilShreyas/NotyKT/workflows/Build%20(Android)/badge.svg)
+![Build (Android)](https://img.shields.io/github/workflow/status/vaibhav158/ASaver/Build%20(Android))
+[![GitHub license](https://img.shields.io/github/license/vaibhav158/ASaver?color=informational)](LICENSE)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
+[![GitHub stars](https://img.shields.io/github/stars/vaibhav158/ASaver?style=social)](https://github.com/vaibhav158/ASaver/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/vaibhav158/ASaver?style=social)](https://github.com/vaibhav158/ASaver/network/members)
+[![GitHub watchers](https://img.shields.io/github/watchers/vaibhav158/ASaver?style=social)](https://github.com/vaibhav158/ASaver/watchers)
 
 _**Asaver Android application**_ is built with _Modern Android application development_ tools or libraries. 
 Aim of this project is to showcase Good practice implementation of Android application development with proper architecture design. 
 _Dedicated to all Android Developers with_ ❤️.
 
-***You can Install and test latest NotyKT app from below 👇***
+***You can Install and test latest ASaver app from below 👇***
 
 [![ASaver App ](https://img.shields.io/badge/Asaver-V2.1-informational?style=for-the-badge&logo=android)](https://github.com/vaibhav158/ASaver/blob/master/app/release/app-release.apk)
 
@@ -67,3 +72,30 @@ You will require Android Studio 4.0 or newer to be able to build the app. Downlo
 This app uses [_**MVVM (Model View View-Model)**_](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture.
 
 ![MVVM Architecture](art/MVVM_architecture.png)
+
+## Want to discuss? 💬
+
+Have any questions, doubts or want to present your opinions, views? You're always welcome. You can [start discussions](https://github.com/vaibhav158/ASaver/discussions).
+
+# Contributors
+
+- [Vaibhav Goyal](https://github.com/vaibhav158)
+
+# License
+
+```
+Copyright (C) 2021  Vaibhav Goyal
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>
+```
