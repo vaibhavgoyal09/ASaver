@@ -3,36 +3,34 @@ package com.mystikcoder.statussaver.di
 import android.content.Context
 import androidx.work.WorkManager
 import com.google.gson.Gson
-import com.mystikcoder.statussaver.data.networking.ApiService
-import com.mystikcoder.statussaver.data.networking.FacebookApiService
-import com.mystikcoder.statussaver.data.repository.*
-import com.mystikcoder.statussaver.data.repository.chingari.abstraction.ChingariDownloadRepository
-import com.mystikcoder.statussaver.data.repository.chingari.implementation.ChingariDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.facebook.abstraction.FacebookRepository
-import com.mystikcoder.statussaver.data.repository.facebook.implementation.FacebookRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.instagram.*
-import com.mystikcoder.statussaver.data.repository.instagram.abstraction.InstagramRepository
-import com.mystikcoder.statussaver.data.repository.instagram.implementation.InstagramRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.josh.abstraction.JoshDownloadRepository
-import com.mystikcoder.statussaver.data.repository.josh.implementation.JoshDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.likee.abstraction.LikeeDownloadRepository
-import com.mystikcoder.statussaver.data.repository.likee.implementation.LikeeDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.mitron.abstraction.MitronDownloadRepository
-import com.mystikcoder.statussaver.data.repository.mitron.implementation.MitronDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.moj.abstraction.MojDownloadRepository
-import com.mystikcoder.statussaver.data.repository.moj.implementation.MojDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.mxtakatak.abstraction.MxTakaTakDownloadRepository
-import com.mystikcoder.statussaver.data.repository.mxtakatak.implementation.MxTakaTakDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.roposo.abstraction.RoposoDownloadRepository
-import com.mystikcoder.statussaver.data.repository.roposo.implementation.RoposeDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.sharechat.abstraction.ShareChatDownloadRepository
-import com.mystikcoder.statussaver.data.repository.sharechat.implementation.ShareChatDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.tiktok.abstraction.TiktokDownloadRepository
-import com.mystikcoder.statussaver.data.repository.tiktok.implementation.TiktokDownloadRepositoryImpl
-import com.mystikcoder.statussaver.data.repository.twitter.abstraction.TwitterDownloadRepository
-import com.mystikcoder.statussaver.data.repository.twitter.implementation.TwitterDownloadRepositoryImpl
-import com.mystikcoder.statussaver.presentation.utils.FileClicked
-import com.mystikcoder.statussaver.presentation.utils.Preferences
+import com.mystikcoder.statussaver.core.data.networking.ApiService
+import com.mystikcoder.statussaver.core.data.networking.FacebookApiService
+import com.mystikcoder.statussaver.core.data.repository.chingari.abstraction.ChingariDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.chingari.implementation.ChingariDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.facebook.abstraction.FacebookRepository
+import com.mystikcoder.statussaver.core.data.repository.facebook.implementation.FacebookRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.instagram.abstraction.InstagramRepository
+import com.mystikcoder.statussaver.core.data.repository.instagram.implementation.InstagramRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.josh.abstraction.JoshDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.josh.implementation.JoshDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.likee.abstraction.LikeeDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.likee.implementation.LikeeDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.mitron.abstraction.MitronDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.mitron.implementation.MitronDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.moj.abstraction.MojDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.moj.implementation.MojDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.mxtakatak.abstraction.MxTakaTakDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.mxtakatak.implementation.MxTakaTakDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.roposo.abstraction.RoposoDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.roposo.implementation.RoposeDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.sharechat.abstraction.ShareChatDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.sharechat.implementation.ShareChatDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.tiktok.abstraction.TiktokDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.tiktok.implementation.TiktokDownloadRepositoryImpl
+import com.mystikcoder.statussaver.core.data.repository.twitter.abstraction.TwitterDownloadRepository
+import com.mystikcoder.statussaver.core.data.repository.twitter.implementation.TwitterDownloadRepositoryImpl
+import com.mystikcoder.statussaver.framework.utils.FileClicked
+import com.mystikcoder.statussaver.framework.utils.Preferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -156,61 +154,61 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesChinghariRepository(): ChingariDownloadRepository{
+    fun providesChinghariRepository(): ChingariDownloadRepository {
         return ChingariDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesFacebookRepository(api: FacebookApiService): FacebookRepository{
+    fun providesFacebookRepository(api: FacebookApiService): FacebookRepository {
         return FacebookRepositoryImpl(api)
     }
 
     @Singleton
     @Provides
-    fun providesMitronRepository(): MitronDownloadRepository{
+    fun providesMitronRepository(): MitronDownloadRepository {
         return MitronDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesTakaTakRepository(api: ApiService): MxTakaTakDownloadRepository{
+    fun providesTakaTakRepository(api: ApiService): MxTakaTakDownloadRepository {
         return MxTakaTakDownloadRepositoryImpl(api)
     }
 
     @Singleton
     @Provides
-    fun providesRoposoRepository(): RoposoDownloadRepository{
+    fun providesRoposoRepository(): RoposoDownloadRepository {
         return RoposeDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesTiktokRepository(api: ApiService): TiktokDownloadRepository{
+    fun providesTiktokRepository(api: ApiService): TiktokDownloadRepository {
         return TiktokDownloadRepositoryImpl(api)
     }
 
     @Singleton
     @Provides
-    fun providesLikeeRepository(): LikeeDownloadRepository{
+    fun providesLikeeRepository(): LikeeDownloadRepository {
         return LikeeDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesJoshRepository(): JoshDownloadRepository{
+    fun providesJoshRepository(): JoshDownloadRepository {
         return JoshDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesShareChatRepository(): ShareChatDownloadRepository{
+    fun providesShareChatRepository(): ShareChatDownloadRepository {
         return ShareChatDownloadRepositoryImpl()
     }
 
     @Singleton
     @Provides
-    fun providesMojRepository(api: ApiService): MojDownloadRepository{
+    fun providesMojRepository(api: ApiService): MojDownloadRepository {
         return MojDownloadRepositoryImpl(api)
     }
 }

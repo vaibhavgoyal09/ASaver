@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backgroundColor"
-        tools:context=".presentation.ui.activity.FullImageViewActivity">
+        tools:context=".framework.ui.activity.FullImageViewActivity">
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/imageView"

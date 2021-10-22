@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.mystikcoder.statussaver.R
-import com.mystikcoder.statussaver.presentation.ui.activity.HomeActivity
+import com.mystikcoder.statussaver.framework.presentation.ui.activity.HomeActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +36,4 @@ object ServiceModule {
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_LOW)
-
 }

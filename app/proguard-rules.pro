@@ -8,7 +8,7 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
--keepclassmembers class com.mystikcoder.statussaver.presentation.ui.activity.FacebookLoginActivity {
+-keepclassmembers class com.mystikcoder.statussaver.framework.ui.activity.FacebookLoginActivity {
    @android.webkit.JavascriptInterface <methods>;
 }
 
@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.mystikcoder.statussaver.domain.model.** { *; }
--keep class com.mystikcoder.statussaver.presentation.ui.services.ClipTextObserverService { *; }
+-keep class com.mystikcoder.statussaver.framework.ui.services.ClipTextObserverService { *; }
 -keepattributes JavascriptInterface
 
 -assumenosideeffects class android.util.Log {
