@@ -42,22 +42,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
-
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
-    
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
 }
 
 dependencies {

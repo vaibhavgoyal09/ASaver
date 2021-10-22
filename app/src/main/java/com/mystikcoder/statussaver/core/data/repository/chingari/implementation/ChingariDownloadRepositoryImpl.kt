@@ -15,7 +15,7 @@ class ChingariDownloadRepositoryImpl : ChingariDownloadRepository {
 
             val videoUrl =
                 document.select("meta[property=\"og:video:secure_url\"]")
-                    ?.last()
+                    .last()
                     ?.attr("content")
             return if (!videoUrl.isNullOrEmpty()) {
                 DownloadRequestResponse(isSuccess = true, downloadLink = videoUrl)

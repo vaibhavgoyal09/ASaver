@@ -14,7 +14,7 @@ class MitronDownloadRepositoryImpl: MitronDownloadRepository {
             val mitronDocument: Document = Jsoup.connect(url).get()
             val html =
                 mitronDocument.select("script[id=\"__NEXT_DATA__\"]")
-                    ?.last()
+                    .last()
                     ?.html()
 
             return if (!html.isNullOrEmpty()) {

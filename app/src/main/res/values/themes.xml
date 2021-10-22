@@ -35,16 +35,6 @@
         <item name="android:textColor">@color/blue_grey</item>
     </style>
 
-    <style name="Theme.FullScreen" parent="Theme.MaterialComponents">
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <style name="AlertDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/fade_in</item>
-        <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
-
     <style name="SplashImage" parent="Theme.MaterialComponents.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/limed_spruce</item>

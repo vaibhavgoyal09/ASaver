@@ -25,7 +25,7 @@ class FacebookRepositoryImpl @Inject constructor(
 
             val videoUrl =
                 document.select("meta[property=\"og:video:url\"]")
-                    ?.last()
+                    .last()
                     ?.attr("content")
 
             return if (!videoUrl.isNullOrEmpty()) {

@@ -14,7 +14,7 @@ class JoshDownloadRepositoryImpl : JoshDownloadRepository {
 
             val html =
                 document.select("script[id=\"__NEXT_DATA__\"]")
-                    ?.last()
+                    .last()
                     ?.html()
 
             return if (!html.isNullOrEmpty()) {

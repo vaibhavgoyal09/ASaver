@@ -4,7 +4,6 @@
     package="com.mystikcoder.statussaver">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -24,72 +23,72 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <service
-            android:name=".framework.ui.services.NotificationDownloadService"
+            android:name=".framework.services.NotificationDownloadService"
             android:enabled="false"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
-            android:name=".framework.ui.activity.TikTokActivity"
+            android:name=".framework.presentation.ui.activity.TikTokActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.GalleryActivity"
+            android:name=".framework.presentation.ui.activity.GalleryActivity"
             android:exported="false" />
 
         <service
-            android:name=".framework.ui.services.ClipTextObserverService"
+            android:name=".framework.services.ClipTextObserverService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name=".framework.ui.activity.FacebookLoginActivity"
+            android:name=".framework.presentation.ui.activity.FacebookLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.VideoPlayActivity"
+            android:name=".framework.presentation.ui.activity.VideoPlayActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.MojActivity"
+            android:name=".framework.presentation.ui.activity.MojActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.MxTakaTakActivity"
+            android:name=".framework.presentation.ui.activity.MxTakaTakActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.MitronActivity"
+            android:name=".framework.presentation.ui.activity.MitronActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.ChingariActivity"
+            android:name=".framework.presentation.ui.activity.ChingariActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.JoshActivity"
+            android:name=".framework.presentation.ui.activity.JoshActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.TwitterActivity"
+            android:name=".framework.presentation.ui.activity.TwitterActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.ShareChatActivity"
+            android:name=".framework.presentation.ui.activity.ShareChatActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.LoginActivity"
+            android:name=".framework.presentation.ui.activity.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.RoposoActivity"
+            android:name=".framework.presentation.ui.activity.RoposoActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.LikeeActivity"
+            android:name=".framework.presentation.ui.activity.LikeeActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.WhatsAppActivity"
+            android:name=".framework.presentation.ui.activity.WhatsAppActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.FacebookActivity"
+            android:name=".framework.presentation.ui.activity.FacebookActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.FullImageViewActivity"
+            android:name=".framework.presentation.ui.activity.FullImageViewActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.InstagramActivity"
+            android:name=".framework.presentation.ui.activity.InstagramActivity"
             android:exported="false" />
         <activity
-            android:name=".framework.ui.activity.HomeActivity"
+            android:name=".framework.presentation.ui.activity.HomeActivity"
             android:exported="true"
             android:theme="@style/SplashImage">
             <intent-filter>
@@ -126,7 +125,6 @@
             android:exported="false"
             tools:node="merge">
 
-            <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"

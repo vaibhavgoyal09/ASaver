@@ -15,22 +15,22 @@ class RoposeDownloadRepositoryImpl : RoposoDownloadRepository {
 
             var videoUrl =
                 document.select("meta[property=\"og:video\"]")
-                    ?.last()
+                    .last()
                     ?.attr("content")
 
-            if (videoUrl.isNullOrEmpty()) {
+            return if (videoUrl.isNullOrEmpty()) {
                 videoUrl =
                     document.select("meta[property=\"og:video:url\"]")
-                        ?.last()
+                        .last()
                         ?.attr("content")
 
-                return if (!videoUrl.isNullOrEmpty()) {
+                if (!videoUrl.isNullOrEmpty()) {
                     DownloadRequestResponse(isSuccess = true , downloadLink = videoUrl)
                 }else{
                     DownloadRequestResponse(errorMessage = "No data found")
                 }
             }else{
-                return DownloadRequestResponse(errorMessage = "No data found")
+                DownloadRequestResponse(errorMessage = "No data found")
             }
         }.getOrElse {
             return DownloadRequestResponse(errorMessage = it.message ?: "Something Went Wrong")

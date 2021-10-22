@@ -12,14 +12,14 @@ class ShareChatDownloadRepositoryImpl: ShareChatDownloadRepository {
             val document = Jsoup.connect(url).get()
 
             val videoUrl = document.select("meta[property=\"og:video:secure_url\"]")
-                ?.last()
+                .last()
                 ?.attr("content")
 
             return if (videoUrl != null){
                 DownloadRequestResponse(isSuccess = true , downloadLink = videoUrl)
             }else{
                 val imageUrl = document.select("meta[property=\"og:image\"]")
-                    ?.last()
+                    .last()
                     ?.attr("content")
 
                 if (imageUrl != null){
