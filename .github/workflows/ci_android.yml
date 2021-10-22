@@ -1,10 +1,12 @@
-name: Android CI
+name: Build (Android)
 
 on:
   push:
-    branches: [ master ]
+    paths:
+      - '**'
   pull_request:
-    branches: [ master ]
+    paths:
+      - '**'
 
 jobs:
   build:
