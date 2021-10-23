@@ -81,11 +81,11 @@ Awesome! If you want to contribute to this project, you're always welcome! See [
 
 Have any questions, doubts or want to present your opinions, views? You're always welcome. You can [start discussions](https://github.com/vaibhav158/ASaver/discussions).
 
-# Contributors
+## Contributors
 
 - [Vaibhav Goyal](https://github.com/vaibhav158)
 
-# License
+## License
 
 ```
 Copyright (C) 2021  Vaibhav Goyal
